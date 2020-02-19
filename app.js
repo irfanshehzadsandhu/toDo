@@ -5,11 +5,10 @@ const todosRoute = require("./routes/todo.route"); // Imports routes for the tod
 const usersRoute = require("./routes/user.route");
 var properties = require("./config/properties");
 var db = require("./config/database");
-var myPrivatekey = require("./properties").MYPRIVATEKEY;
 // initialize our express app
 const app = express();
 //use config module to get the privatekey, if no private key set, end the application
-if (!myPrivatekey) {
+if (!properties.MYPRIVATEKEY) {
   console.error("FATAL ERROR: myprivatekey is not defined.");
   process.exit(1);
 }

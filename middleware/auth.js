@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-var myPrivatekey = require("../config/properties").MYPRIVATEKEY;
+var properties = require("../config/properties");
 
 module.exports = function(req, res, next) {
   //get the token from the header if present
@@ -9,7 +9,7 @@ module.exports = function(req, res, next) {
 
   try {
     //if can verify the token, set req.user and pass to next middleware
-    const decoded = jwt.verify(token, myPrivatekey);
+    const decoded = jwt.verify(token, properties.MYPRIVATEKEY);
     req.user = decoded;
     next();
   } catch (ex) {
