@@ -1,7 +1,3 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-let ToDoSchema = new Schema({
-  description: { type: String },
-  completed: { type: Boolean, default: false }
-});
+let ToDoSchema = require("../schemas/todo.schema");
 module.exports = mongoose.model("ToDo", ToDoSchema);

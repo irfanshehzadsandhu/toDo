@@ -34,7 +34,7 @@ exports.all = function(req, res) {
 exports.create = function(req, res) {
   //console.log(req.params);
   let todo = new ToDo({
-    id: uuidv1(),
+    toDoID: uuidv1(),
     description: req.body.description,
     completed: req.body.completed
   });

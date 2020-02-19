@@ -1,4 +1,4 @@
-//const auth = require("../../../middleware/auth");
+const uuidv1 = require("uuid/v1");
 const bcrypt = require("bcrypt");
 const { User, validate } = require("../../../models/user.model");
 // Current User
@@ -17,6 +17,7 @@ exports.create = async (req, res) => {
   if (user) return res.status(400).send("User already registered.");
 
   user = new User({
+    userID: uuidv1(),
     name: req.body.name,
     password: req.body.password,
     email: req.body.email
