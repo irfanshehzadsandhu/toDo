@@ -13,10 +13,11 @@ checkPrivateKey();
 db();
 //set view engine
 app.set("view engine", "jade");
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.get("/", function(req, res) {
   res.render("home");
 });
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/v1/todos", todosRoute);
 app.use("/api/v1/users", usersRoute);
 module.exports = app;
