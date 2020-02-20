@@ -1,6 +1,7 @@
 // app.js
 const express = require("express");
 const bodyParser = require("body-parser");
+const homePageRoute = require("./routes/homepage.route");
 const todosRoute = require("./routes/todo.route"); // Imports routes for the todos
 const usersRoute = require("./routes/user.route");
 const db = require("./config/database");
@@ -15,9 +16,7 @@ db();
 app.set("view engine", "jade");
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/", function(req, res) {
-  res.render("home");
-});
+app.get("/", homePageRoute.homepage);
 app.use("/api/v1/todos", todosRoute);
 app.use("/api/v1/users", usersRoute);
 module.exports = app;
