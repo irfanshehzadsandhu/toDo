@@ -1,7 +1,13 @@
 const toDoService = require("../../../../services/todo.service");
-exports.find = toDoService.find;
+exports.find = async (req, res) => {
+  let toDoServiceResponse = await toDoService.find(req, res);
+  res.send(toDoServiceResponse);
+};
 
-exports.all = toDoService.all;
+exports.all = async (req, res) => {
+  let toDoServiceResponse = await toDoService.all(req, res);
+  res.send(toDoServiceResponse);
+};
 
 exports.create = toDoService.create;
 

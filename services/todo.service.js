@@ -1,34 +1,28 @@
 const ToDo = require("../models/todo.model");
 const uuidv1 = require("uuid/v1");
 
-exports.find = function(req, res) {
-  ToDo.find({ _id: req.query.id }, function(err, todo) {
-    if (err) {
-      res.send({
-        code: 403,
-        err: err
-      });
-    }
-    res.send({
-      code: 200,
-      todo: todo
+exports.find = async (req, res) => {
+  let todo;
+  let code;
+  await ToDo.find({ _id: req.query.id })
+    .then(function(data) {
+      code = 200;
+      todo = data;
+    })
+    .catch(function(err) {
+      code = 400;
     });
-  });
+  return { code: code, todo: todo };
 };
 
-exports.all = function(req, res) {
-  ToDo.find({}, function(err, todos) {
-    if (err) {
-      res.send({
-        code: 403,
-        err: err
-      });
-    }
-    res.send({
-      code: 200,
-      todos: todos
-    });
+exports.all = async (req, res) => {
+  let todos;
+  let code;
+  await ToDo.find({}).then(function(data) {
+    code = 200;
+    todos = data;
   });
+  return { code: code, todos: todos };
 };
 
 exports.create = function(req, res) {
