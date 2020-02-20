@@ -1,4 +1,4 @@
-const toDoService = require("../../../services/todo.service");
+const toDoService = require("../../../../services/todo.service");
 exports.find = toDoService.find;
 
 exports.all = toDoService.all;

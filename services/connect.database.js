@@ -1,8 +1,8 @@
 //require mongoose module
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 //require database URL from properties file
-var dbURL = require("./properties").DB;
+const dbURL = require("../config").DB;
 
 //export this function and imported by server.js
 module.exports = function() {

@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const properties = require("../config/properties");
+const configuration = require("../config");
 const mongoose = require("mongoose");
 const UserSchema = new mongoose.Schema({
   userID: {
@@ -33,7 +33,7 @@ const UserSchema = new mongoose.Schema({
 UserSchema.methods.generateAuthToken = function() {
   const token = jwt.sign(
     { _id: this._id, isAdmin: this.isAdmin },
-    properties.MYPRIVATEKEY
+    configuration.MYPRIVATEKEY
   ); //get the private key from the config file -> environment variable
   return token;
 };
