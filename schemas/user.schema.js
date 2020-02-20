@@ -29,12 +29,4 @@ const UserSchema = new mongoose.Schema({
   //give different access rights if admin or not
   isAdmin: Boolean
 });
-//custom method to generate authToken
-UserSchema.methods.generateAuthToken = function() {
-  const token = jwt.sign(
-    { _id: this._id, isAdmin: this.isAdmin },
-    configuration.MYPRIVATEKEY
-  ); //get the private key from the config file -> environment variable
-  return token;
-};
 module.exports = UserSchema;

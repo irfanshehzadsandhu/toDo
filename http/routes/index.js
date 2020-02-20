@@ -1,4 +1,3 @@
-const app = require("../bootstrap/app");
 const homePageRoute = require("./homepage.route");
 const todosRoute = require("./todo.route");
 const usersRoute = require("./user.route");
