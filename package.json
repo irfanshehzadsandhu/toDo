@@ -4,7 +4,7 @@
   "description": "I am learning node",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_ENV=test mocha -r dotenv/config",
     "start": "node ./bin/www",
     "dev": "NODE_ENV=development node -r dotenv/config bin/www"
   },
@@ -21,5 +21,9 @@
     "mongoose": "^5.9.1",
     "pug": "^2.0.4",
     "uuid": "^3.4.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.0.1"
   }
 }
