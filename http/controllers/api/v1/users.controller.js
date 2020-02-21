@@ -1,12 +1,12 @@
 // Current User
 const userService = require("../../../../services/user.service");
 exports.current = async (req, res) => {
-  const user = await userService.current(req, res);
+  const user = await userService.current(req.user._id);
   res.send(user);
 };
 
 exports.create = async (req, res) => {
-  const serviceResponse = await userService.create(req, res);
+  const serviceResponse = await userService.create(req.body);
   if (serviceResponse.status == 400) {
     res.send(serviceResponse.message);
   }
