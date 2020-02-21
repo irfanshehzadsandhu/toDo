@@ -6,7 +6,7 @@ const User = require("../../models/user.model");
 const userService = require("../../services/user.service");
 const testEmail = "test@email.com";
 
-describe("Creating a user", async () => {
+describe("User Service methods", async () => {
   beforeEach(async () => {
     let user = await User.create({
       userID: uuidv1(),
