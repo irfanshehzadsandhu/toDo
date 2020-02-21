@@ -10,5 +10,5 @@ app.set("view engine", "jade");
 app.use(bodyParser.urlencoded({ extended: true })); //This must be added before defining routes otherwise you will be get exception "undefined" in form body
 routes(app); // Verify !!!!! this is right approach?????
 //connect to database
-db();
+db.connect();
 module.exports = app;

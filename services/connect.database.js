@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const dbURL = require("../config").DB;
 
 //export this function and imported by server.js
-module.exports = function() {
+module.exports.connect = function() {
   mongoose.connect(dbURL);
 
   mongoose.connection.on("connected", function() {
@@ -29,3 +29,4 @@ module.exports = function() {
     });
   });
 };
+module.exports.mongoose = mongoose;
