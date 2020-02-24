@@ -1,7 +1,6 @@
 const expect = require("chai").expect;
 const faker = require("faker");
 const uuidv1 = require("uuid/v1");
-const validate = require("../../validators/user.validator");
 const User = require("../../models/user.model");
 const userService = require("../../services/user.service");
 const testEmail = "test@email.com";
@@ -17,36 +16,35 @@ describe("User Service methods", async () => {
   });
 
   it("expects user must not be created due to validation.", async () => {
-    const userRequestBody = {
-      userID: "",
+    let userRequestBody = {
       name: "",
       email: "",
       password: ""
     };
-    const { error } = validate(userRequestBody);
-    expect(error).to.exist.and.be.instanceof(Error);
+
+    let error = await userService.create(userRequestBody);
+    expect(error.status).eq(400);
   });
 
   it("expects user is already created.", async () => {
-    let user = await User.findOne({ email: testEmail });
-    expect(user.email).to.eq(testEmail);
+    let userRequestBody = {
+      name: faker.name.findName(),
+      email: testEmail,
+      password: faker.internet.password()
+    };
+    let error = await userService.create(userRequestBody);
+    expect(error.status).eq(400);
+    expect(error.message).eq("User already registered.");
   });
 
-  it("creates a user", () => {
-    let user = new User({
-      userID: uuidv1(),
+  it("creates a user", async () => {
+    let userRequestBody = {
       name: faker.name.findName(),
       email: faker.internet.email(),
       password: faker.internet.password()
-    });
-    user.save().then(() => {
-      expect(user.isNew).to.false;
-    });
-  });
-
-  it("generates oauth token", async () => {
-    let user = User.findOne({ email: testEmail });
-    let token = await userService.generateAuthToken(user);
-    expect(token).to.exist;
+    };
+    let userResponse = await userService.create(userRequestBody);
+    expect(userResponse.status).eq(200);
+    expect(userResponse.message).eq("User created successfully.");
   });
 });

@@ -4,9 +4,8 @@
   "description": "I am learning node",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive -r dotenv/config -p dotenv_config_path=./.env.test",
-    "start": "node ./bin/www",
-    "dev": "node -r dotenv/config ./bin/www dotenv_config_path=./.env.development"
+    "test": "mocha --recursive -r dotenv/config",
+    "start": "node ./bin/www"
   },
   "author": "Irfan Shahzad",
   "license": "ISC",
