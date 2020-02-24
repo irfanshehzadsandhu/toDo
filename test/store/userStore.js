@@ -1,6 +1,5 @@
 const expect = require("chai").expect;
 const faker = require("faker");
-const User = require("../../models/user");
 const UserStore = require("../../stores/userStore");
 
 describe("User Service methods", () => {
@@ -21,12 +20,12 @@ describe("User Service methods", () => {
 
   it("should find user with given userID.", async () => {
     const userFromDb = await UserStore.findByUserID(user.userID);
-    expect(userFromDb[0].userID).eq(user.userID);
+    expect(userFromDb.userID).eq(user.userID);
   });
 
   it("should find user with given email.", async () => {
-    const userFromDb = await UserStore.findByUserEmail(user.email);
-    expect(userFromDb[0].email).eq(user.email);
+    const userFromDb = await UserStore.findByEmail(user.email);
+    expect(userFromDb.email).eq(user.email);
   });
 
   it("should update user with given details.", async () => {

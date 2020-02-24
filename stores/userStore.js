@@ -1,14 +1,17 @@
 const uuidv1 = require("uuid/v1");
+const bcrypt = require("bcrypt");
 const User = require("../models/user");
 
 class UserStore {
   static async create(params) {
-    const user = await User.create({
+    const user = new User({
       userID: uuidv1(),
       name: params.name,
-      email: params.email,
-      password: params.password
+      password: params.password,
+      email: params.email
     });
+    user.password = await bcrypt.hash(user.password, 10);
+    await user.save();
     return user;
   }
 
@@ -18,12 +21,12 @@ class UserStore {
   }
 
   static async findByUserID(userID) {
-    let user = await User.find({ userID: userID });
+    let user = await User.findOne({ userID: userID });
     return user;
   }
 
-  static async findByUserEmail(email) {
-    let user = await User.find({ email: email });
+  static async findByEmail(email) {
+    let user = await User.findOne({ email: email });
     return user;
   }
 
