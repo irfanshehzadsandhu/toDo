@@ -4,7 +4,7 @@
   "description": "I am learning node",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive -r dotenv/config",
+    "test": "mocha --recursive",
     "start": "node ./bin/www"
   },
   "author": "Irfan Shahzad",

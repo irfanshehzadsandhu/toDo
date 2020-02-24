@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-const configuration = require("../config");
+//const jwt = require("jsonwebtoken");
+//const configuration = require("../config");
 const mongoose = require("mongoose");
 const UserSchema = new mongoose.Schema({
   userID: {
@@ -29,4 +29,8 @@ const UserSchema = new mongoose.Schema({
   //give different access rights if admin or not
   isAdmin: Boolean
 });
-module.exports = UserSchema;
+//module.exports = UserSchema;
+
+const User = mongoose.model("User", UserSchema);
+
+module.exports = User;

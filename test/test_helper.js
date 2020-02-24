@@ -1,4 +1,6 @@
-const db = require("../services/connect.database");
+require("dotenv").config();
+const db = require("../models/mongoose");
+
 db.connect();
 //Called hooks which runs before something.
 beforeEach(done => {

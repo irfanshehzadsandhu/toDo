@@ -23,7 +23,7 @@ exports.create = async params => {
   if (user) {
     return { status: 400, message: "User already registered." };
   }
-  user = new User({
+  const user = new User({
     userID: uuidv1(),
     name: params.name,
     password: params.password,
