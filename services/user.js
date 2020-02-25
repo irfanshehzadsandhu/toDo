@@ -1,8 +1,8 @@
 const validate = require("../validators/userValidator");
 const UserStore = require("../stores/userStore");
 
-exports.current = user_id => {
-  const user = UserStore.findByUserID(user_id);
+exports.current = userID => {
+  const user = UserStore.findByUserID(userID);
   return user;
 };
 

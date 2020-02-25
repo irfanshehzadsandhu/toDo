@@ -19,11 +19,28 @@ class UserStore {
   setUserID() {
     this.userID = uuidv1();
   }
+
+  static async isPresent(user) {
+    return await User.exists(user);
+  }
+  static async first(limit = 1) {
+    return await User.find()
+      .sort({ createdAt: -1 })
+      .limit(limit);
+    return latestUser;
+  }
+  static async last(limit = 1) {
+    return await User.find()
+      .sort({ createdAt: 1 })
+      .limit(limit);
+  }
   //TODO
-  //static async exists()
-  //static async first(numberOfDocuments) number of documents should be an integer
-  //static async last(numberOfDocuments) number of documents should be an integer
-  //static async findOrCreate() find a document in a collection if not found create one
+  // static async findOneOrCreate(user) {
+  //   return await User.findOneOrCreate(user);
+  // }
+  static async count() {
+    return User.count({});
+  }
   static async add(user) {
     //create() for saving many documents at a time. Create is basically using save() for each document
     return await User.create(user);

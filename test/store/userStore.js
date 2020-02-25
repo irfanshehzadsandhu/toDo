@@ -21,6 +21,26 @@ describe("User Store methods", async () => {
     expect(userFromDb.userID).eq(user.userID);
   });
 
+  it("should return latest users.", async () => {
+    const latestUsers = await UserStore.first(); //In first we can pass integer e.g 2 or 10 for fetching latest documents
+    expect(latestUsers[0].email).eq(user.email);
+  });
+
+  it("should return oldest users.", async () => {
+    const oldestUsers = await UserStore.last(); //In last we can pass integer e.g 2 or 10 for fetching oldest documents
+    expect(oldestUsers[0].email).eq(user.email);
+  });
+
+  it("should count the users.", async () => {
+    const count = await UserStore.count();
+    expect(count).eq(1);
+  });
+
+  it("should check user is present in Database.", async () => {
+    const result = await UserStore.isPresent(user);
+    expect(result).eq(true);
+  });
+
   it("should find user with given email.", async () => {
     const userFromDb = await UserStore.findByEmail(userObj.email);
     expect(userFromDb.email).eq(user.email);

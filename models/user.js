@@ -24,6 +24,7 @@ const UserSchema = new mongoose.Schema({
     minlength: 3,
     maxlength: 255
   },
+  createdAt: { type: Date, default: Date.now },
   //give different access rights if admin or not
   isAdmin: Boolean
 });
