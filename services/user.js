@@ -1,5 +1,3 @@
-const bcrypt = require("bcrypt");
-const uuidv1 = require("uuid/v1");
 const validate = require("../validators/userValidator");
 const UserStore = require("../stores/userStore");
 
@@ -21,9 +19,10 @@ exports.create = async params => {
   if (userIsPresent) {
     return { status: 400, message: "User already registered." };
   }
-  params.userID = uuidv1();
-  params.password = await bcrypt.hash(params.password, 10);
-  const newUser = UserStore.add(params);
+  const user = new UserStore(params);
+  user.setUserID();
+  user.password = await user.setPassword(params.password);
+  const newUser = await UserStore.add(user);
   return { status: 200, message: "User created successfully.", user: newUser };
 };
 

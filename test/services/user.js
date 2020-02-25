@@ -2,19 +2,14 @@ const expect = require("chai").expect;
 const faker = require("faker");
 const userService = require("../../services/user");
 const UserStore = require("../../stores/userStore");
-const bcrypt = require("bcrypt");
-const uuidv1 = require("uuid/v1");
-const testEmail = "test@email.com";
-
+const userObj = require("../helper/user");
 describe("User Service methods", async () => {
+  const user = new UserStore(userObj);
   beforeEach(async () => {
-    const params = {
-      userID: uuidv1(),
-      name: faker.name.findName(),
-      email: faker.internet.email(),
-      password: await bcrypt.hash(faker.internet.password(), 10)
-    };
-    await UserStore.add(params);
+    user.createFromObject(userObj);
+    user.setUserID();
+    user.password = await user.setPassword(faker.internet.password());
+    await UserStore.add(user);
   });
 
   it("expects user must not be created due to validation.", async () => {
@@ -31,7 +26,7 @@ describe("User Service methods", async () => {
   it("expects user is already created.", async () => {
     const userRequestBody = {
       name: faker.name.findName(),
-      email: testEmail,
+      email: userObj.email,
       password: faker.internet.password()
     };
     const error = await userService.create(userRequestBody);

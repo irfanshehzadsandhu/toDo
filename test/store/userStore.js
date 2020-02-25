@@ -2,13 +2,12 @@ const expect = require("chai").expect;
 const faker = require("faker");
 const UserStore = require("../../stores/userStore");
 const userObj = require("../helper/user");
-describe("User Store methods", () => {
+describe("User Store methods", async () => {
   const user = new UserStore(userObj);
-  user.createFromObject(userObj);
-  user.setUserID();
-  user.setPassword(faker.internet.password());
-  console.log("***************", user);
   beforeEach(async () => {
+    user.createFromObject(userObj);
+    user.setUserID();
+    user.password = await user.setPassword(faker.internet.password());
     await UserStore.add(user);
   });
 
@@ -19,12 +18,12 @@ describe("User Store methods", () => {
 
   it("should find user with given userID.", async () => {
     const userFromDb = await UserStore.findByUserID(user.userID);
-    expect(userFromDb.userID).eq(userID);
+    expect(userFromDb.userID).eq(user.userID);
   });
 
   it("should find user with given email.", async () => {
-    const userFromDb = await UserStore.findByEmail(user.email);
-    expect(userFromDb.email).eq(email);
+    const userFromDb = await UserStore.findByEmail(userObj.email);
+    expect(userFromDb.email).eq(user.email);
   });
 
   it("should update user with given details.", async () => {

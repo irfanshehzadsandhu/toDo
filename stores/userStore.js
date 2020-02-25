@@ -2,17 +2,18 @@ const bcrypt = require("bcrypt");
 const uuidv1 = require("uuid/v1");
 const User = require("../models/user");
 class UserStore {
-  constructor(name, email) {
-    this.name = name;
-    this.email = email;
+  constructor(params) {
+    this.name = params.name;
+    this.email = params.email;
   }
+  //for tests
   createFromObject(obj) {
     this.name = obj.name;
     this.email = obj.email;
   }
 
   async setPassword(password) {
-    this.password = await bcrypt.hash(password, 10);
+    return await bcrypt.hash(password, 10);
   }
 
   setUserID() {
@@ -42,14 +43,15 @@ class UserStore {
     return await User.findOne({ email: email });
   }
 
-  static async update(userParams) {
+  static async update(user) {
     //updateOne() returns information of updated document e.g { n: 1, nModified: 0, ok: 1 }
     // findOneAndUpdate() returns updated document.
-    const user = await User.findOneAndUpdate(
-      { userID: userParams.userID },
-      userParams
+    const updatedUser = await User.findOneAndUpdate(
+      { userID: user.userID },
+      user,
+      function() {}
     );
-    return user;
+    return updatedUser;
   }
   static async remove(user) {
     //deleteOne will delete at most document matching the query.
