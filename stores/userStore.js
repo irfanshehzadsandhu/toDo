@@ -1,49 +1,59 @@
-const uuidv1 = require("uuid/v1");
 const bcrypt = require("bcrypt");
+const uuidv1 = require("uuid/v1");
 const User = require("../models/user");
-
 class UserStore {
-  static async create(params) {
-    const user = new User({
-      userID: uuidv1(),
-      name: params.name,
-      password: params.password,
-      email: params.email
-    });
-    user.password = await bcrypt.hash(user.password, 10);
-    await user.save();
-    return user;
+  constructor(name, email) {
+    this.name = name;
+    this.email = email;
+  }
+  createFromObject(obj) {
+    this.name = obj.name;
+    this.email = obj.email;
+  }
+
+  async setPassword(password) {
+    this.password = await bcrypt.hash(password, 10);
+  }
+
+  setUserID() {
+    this.userID = uuidv1();
+  }
+  //TODO
+  //static async exists()
+  //static async first(numberOfDocuments) number of documents should be an integer
+  //static async last(numberOfDocuments) number of documents should be an integer
+  //static async findOrCreate() find a document in a collection if not found create one
+  static async add(user) {
+    //create() for saving many documents at a time. Create is basically using save() for each document
+    return await User.create(user);
   }
 
   static async findAll() {
-    const users = await User.find({});
-    return users;
+    //find() returns an array of documents
+    return await User.find({});
   }
 
   static async findByUserID(userID) {
-    let user = await User.findOne({ userID: userID });
-    return user;
+    //findOne() returns at most one document and findMany will return all documents matching the query.
+    return await User.findOne({ userID: userID });
   }
 
   static async findByEmail(email) {
-    let user = await User.findOne({ email: email });
-    return user;
+    return await User.findOne({ email: email });
   }
 
-  static async update(params) {
-    let user = await User.findOneAndUpdate(
-      { userID: params.userID },
-      { email: params.email, name: params.name },
-      function(err, u) {
-        console.log("@@@@@@@@@@@@@@@", u);
-      }
+  static async update(userParams) {
+    //updateOne() returns information of updated document e.g { n: 1, nModified: 0, ok: 1 }
+    // findOneAndUpdate() returns updated document.
+    const user = await User.findOneAndUpdate(
+      { userID: userParams.userID },
+      userParams
     );
     return user;
   }
-  static async remove(userID) {
-    await User.findOneAndDelete({ userID: userID }, function(err, u) {
-      console.log("@@@@@@@@@@@@@@@", u);
-    });
+  static async remove(user) {
+    //deleteOne will delete at most document matching the query.
+    await User.deleteOne(user);
   }
 }
 module.exports = UserStore;
