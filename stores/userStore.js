@@ -19,28 +19,6 @@ class UserStore {
   setUserID() {
     this.userID = uuidv1();
   }
-
-  static async isPresent(user) {
-    return await User.exists(user);
-  }
-  static async first(limit = 1) {
-    return await User.find()
-      .sort({ createdAt: -1 })
-      .limit(limit);
-    return latestUser;
-  }
-  static async last(limit = 1) {
-    return await User.find()
-      .sort({ createdAt: 1 })
-      .limit(limit);
-  }
-  //TODO
-  // static async findOneOrCreate(user) {
-  //   return await User.findOneOrCreate(user);
-  // }
-  static async count() {
-    return User.count({});
-  }
   static async add(user) {
     //create() for saving many documents at a time. Create is basically using save() for each document
     return await User.create(user);
@@ -73,6 +51,26 @@ class UserStore {
   static async remove(user) {
     //deleteOne will delete at most document matching the query.
     await User.deleteOne(user);
+  }
+  static async isPresent(user) {
+    return await User.exists(user);
+  }
+  static async first(limit = 1) {
+    return await User.find()
+      .sort({ createdAt: -1 })
+      .limit(limit);
+  }
+  static async last(limit = 1) {
+    return await User.find()
+      .sort({ createdAt: 1 })
+      .limit(limit);
+  }
+  //TODO
+  // static async findOneOrCreate(user) {
+  //   return await User.findOneOrCreate(user);
+  // }
+  static async count() {
+    return User.count({});
   }
 }
 module.exports = UserStore;

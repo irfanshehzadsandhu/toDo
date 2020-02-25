@@ -6,5 +6,6 @@ module.exports = new mongoose.Schema({
     unique: true
   },
   description: { type: String },
-  completed: { type: Boolean, default: false }
+  completed: { type: Boolean, default: false },
+  createdAt: { type: Date, default: Date.now }
 });
