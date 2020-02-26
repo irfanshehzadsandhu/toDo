@@ -20,7 +20,7 @@ exports.create = async params => {
     return { status: 400, message: "User already registered." };
   }
   //Create a user from entity first
-  const user = UserEntity.create(params);
+  const user = UserEntity.create(params); //Create a user entity first.
   user.password = await user.setPassword(params.password);
   const newUser = await UserStore.add(user);
   if (newUser.isCreated) {
