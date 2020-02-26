@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-module.exports = new mongoose.Schema({
+const ToDoSchema = new mongoose.Schema({
   toDoID: {
     type: String,
     required: true,
@@ -9,3 +9,5 @@ module.exports = new mongoose.Schema({
   completed: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now }
 });
+const ToDo = mongoose.model("ToDo", ToDoSchema);
+module.exports = ToDo;

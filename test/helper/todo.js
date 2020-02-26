@@ -1,6 +1,6 @@
 const faker = require("faker");
-user = {
+toDo = {
   description: faker.lorem.paragraph(),
   completed: faker.random.boolean()
 };
-module.exports = user;
+module.exports = toDo;
