@@ -1,24 +1,5 @@
-const bcrypt = require("bcrypt");
-const uuidv1 = require("uuid/v1");
 const User = require("../models/user");
 class UserStore {
-  constructor(params) {
-    this.name = params.name;
-    this.email = params.email;
-  }
-  //for tests
-  createFromObject(obj) {
-    this.name = obj.name;
-    this.email = obj.email;
-  }
-
-  async setPassword(password) {
-    return await bcrypt.hash(password, 10);
-  }
-
-  setUserID() {
-    this.userID = uuidv1();
-  }
   static async add(user) {
     //create() for saving many documents at a time. Create is basically using save() for each document
     return await User.create(user);

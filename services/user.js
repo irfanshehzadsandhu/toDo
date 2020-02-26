@@ -1,6 +1,6 @@
 const validate = require("../validators/userValidator");
 const UserStore = require("../stores/userStore");
-
+const UserEntity = require("../entities/user");
 exports.current = userID => {
   const user = UserStore.findByUserID(userID);
   return user;
@@ -19,8 +19,8 @@ exports.create = async params => {
   if (userIsPresent) {
     return { status: 400, message: "User already registered." };
   }
-  const user = new UserStore(params);
-  user.setUserID();
+  //Create a user from entity first
+  const user = UserEntity.create(params);
   user.password = await user.setPassword(params.password);
   const newUser = await UserStore.add(user);
   return { status: 200, message: "User created successfully.", user: newUser };

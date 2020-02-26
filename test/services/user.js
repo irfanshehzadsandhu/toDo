@@ -2,14 +2,13 @@ const expect = require("chai").expect;
 const faker = require("faker");
 const userService = require("../../services/user");
 const UserStore = require("../../stores/userStore");
-const userObj = require("../helper/user");
+const userDetails = require("../helper/user");
+const UserEntity = require("../../entities/user");
 describe("User Service methods", async () => {
-  const user = new UserStore(userObj);
+  const userObj = UserEntity.createFromObject(userDetails);
   beforeEach(async () => {
-    user.createFromObject(userObj);
-    user.setUserID();
-    user.password = await user.setPassword(faker.internet.password());
-    await UserStore.add(user);
+    userObj.password = await userObj.setPassword(faker.internet.password());
+    await UserStore.add(userObj);
   });
 
   it("expects user must not be created due to validation.", async () => {
