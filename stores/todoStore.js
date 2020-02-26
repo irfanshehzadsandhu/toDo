@@ -1,19 +1,6 @@
 const uuidv1 = require("uuid/v1");
 const ToDo = require("../models/todo");
 class ToDoStore {
-  constructor(params) {
-    this.description = params.description;
-    this.completed = params.completed;
-  }
-  //for tests
-  createFromObject(obj) {
-    this.description = obj.description;
-    this.completed = obj.completed;
-  }
-
-  setToDoID() {
-    this.toDoID = uuidv1();
-  }
   static async add(toDo) {
     //create() for saving many documents at a time. Create is basically using save() for each document
     return await ToDo.create(toDo);

@@ -1,46 +1,25 @@
-// const expect = require("chai").expect;
-// const faker = require("faker");
-// const uuidv1 = require("uuid/v1");
-// const ToDo = require("../../models/todo.model");
+const expect = require("chai").expect;
+const ToDoService = require("../../services/todo");
+const ToDoStore = require("../../stores/todoStore");
+const TodoEntity = require("../../entities/todo");
+const toDoDetails = require("../helper/todo");
 
-// describe("ToDo Service methods", async () => {
-//   let todoInDb;
-//   beforeEach(async () => {
-//     todoInDb = await ToDo.create({
-//       toDoID: uuidv1(),
-//       description: faker.lorem.paragraph(),
-//       completed: faker.random.boolean()
-//     });
-//   });
+describe("ToDo Service methods", async () => {
+  const toDo = TodoEntity.createFromObject(toDoDetails);
+  beforeEach(async () => {
+    await ToDoStore.add(toDo);
+  });
 
-//   it("creates a todo", () => {
-//     let todo = new ToDo({
-//       toDoID: uuidv1(),
-//       description: faker.lorem.paragraph(),
-//       completed: faker.random.boolean()
-//     });
-//     todo.save().then(() => {
-//       expect(todo.isNew).to.false;
-//     });
-//   });
+  it("expects todo must not be created due to validation.", async () => {
+    const error = await ToDoService.create({});
+    expect(error.status).eq(400);
+  });
 
-//   it("finds a todo", async () => {
-//     let todo = await ToDo.findOne({ toDoID: todoInDb.toDoID });
-//     expect(todo.toDoID).eq(todoInDb.toDoID);
-//   });
-
-//   it("update a todo", async () => {
-//     let description = faker.lorem.paragraph();
-//     let completed = faker.random.boolean();
-
-//     let todo = await ToDo.findOneAndUpdate(
-//       { toDoID: todoInDb.toDoID },
-//       {
-//         description: description,
-//         completed: completed
-//       }
-//     );
-//     //expect(todo.description).eq(description);
-//     expect(todo.completed).eq(completed);
-//   });
-// });
+  it("toDo should be created.", async () => {
+    const toDo = await ToDoService.create({
+      description: "I am testing",
+      completed: true
+    });
+    expect(toDo.status).eq(200);
+  });
+});
