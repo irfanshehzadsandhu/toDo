@@ -39,8 +39,8 @@ exports.create = async params => {
 exports.updatePassword = async params => {
   const user = UserEntity.update(params);
   user.password = await user.setPassword(params.password);
-  const password = await UserStore.update(user);
-  if (password.isUpdated) {
+  const passwordUpdatedInfo = await UserStore.update(user);
+  if (passwordUpdatedInfo.isUpdated) {
     return { status: 200, message: "Password updated successfully." };
   } else {
     return { status: 400, message: user.error };

@@ -8,26 +8,17 @@ class UserEntity {
   }
 
   static create(params) {
-    const userID = uuidv1();
-    const name = params.name;
-    const email = params.email;
-    const userObj = new UserEntity(userID, name, email);
+    const userObj = new UserEntity(uuidv1(), params.name, params.email);
     return userObj;
   }
 
   static update(params) {
-    const userID = params.userID;
-    const name = params.name;
-    const email = params.email;
-    const userObj = new UserEntity(userID, name, email);
+    const userObj = new UserEntity(params.userID, params.name, params.email);
     return userObj;
   }
 
   static createFromObject(obj) {
-    const userID = uuidv1();
-    const name = obj.name;
-    const email = obj.email;
-    const userObj = new UserEntity(userID, name, email);
+    const userObj = new UserEntity(uuidv1(), obj.name, obj.email);
     return userObj;
   }
 

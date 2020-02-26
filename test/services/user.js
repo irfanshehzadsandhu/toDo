@@ -5,8 +5,8 @@ const UserStore = require("../../stores/userStore");
 const userDetails = require("../helper/user");
 const UserEntity = require("../../entities/user");
 describe("User Service methods", async () => {
-  const userObj = UserEntity.createFromObject(userDetails);
   beforeEach(async () => {
+    const userObj = UserEntity.createFromObject(userDetails);
     userObj.password = await userObj.setPassword(faker.internet.password());
     await UserStore.add(userObj);
   });
@@ -25,7 +25,7 @@ describe("User Service methods", async () => {
   it("expects user is already created.", async () => {
     const userRequestBody = {
       name: faker.name.findName(),
-      email: userObj.email,
+      email: userDetails.email,
       password: faker.internet.password()
     };
     const error = await userService.create(userRequestBody);
