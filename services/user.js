@@ -23,7 +23,17 @@ exports.create = async params => {
   const user = UserEntity.create(params);
   user.password = await user.setPassword(params.password);
   const newUser = await UserStore.add(user);
-  return { status: 200, message: "User created successfully.", user: newUser };
+  if (newUser.isCreated) {
+    return {
+      status: 200,
+      message: "User created successfully.",
+      user: newUser
+    };
+  } else {
+    return {
+      status: 400
+    };
+  }
 };
 
 exports.updatePassword = async params => {

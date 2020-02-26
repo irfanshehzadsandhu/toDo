@@ -1,8 +1,13 @@
 const User = require("../models/user");
 class UserStore {
   static async add(user) {
-    //create() for saving many documents at a time. Create is basically using save() for each document
-    return await User.create(user);
+    try {
+      //create() for saving many documents at a time. Create is basically using save() for each document
+      const newUser = await User.create(user);
+      return { isCreated: true, newUser: newUser };
+    } catch (e) {
+      return { isCreated: false };
+    }
   }
 
   static async findAll() {
