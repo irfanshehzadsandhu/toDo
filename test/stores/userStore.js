@@ -49,19 +49,17 @@ describe("User Store methods", async () => {
   it("should update user with given details.", async () => {
     const latestUsers = await UserStore.first();
     const user = latestUsers[0];
-    const name = faker.name.findName();
     const updatedUserInfo = await UserStore.update({
       userID: user.userID,
-      name: name
+      name: faker.name.findName()
     });
-    expect(updatedUserInfo.name).eq(name);
+    expect(updatedUserInfo.isUpdated).eq(true);
   });
 
   it("should delete user with given userID.", async () => {
     const latestUsers = await UserStore.first();
     const user = latestUsers[0];
-    await UserStore.remove(user);
-    const users = await UserStore.findAll();
-    expect(users.length).eq(0);
+    const deletedUserResponse = await UserStore.remove(user);
+    expect(deletedUserResponse.isDeleted).eq(true);
   });
 });

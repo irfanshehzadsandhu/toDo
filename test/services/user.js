@@ -43,4 +43,14 @@ describe("User Service methods", async () => {
     expect(userResponse.status).eq(200);
     expect(userResponse.message).eq("User created successfully.");
   });
+
+  it("should update user password", async () => {
+    const usersList = await UserStore.first();
+    const user = usersList[0];
+    const userResponse = await userService.updatePassword({
+      userID: user.userID,
+      password: faker.internet.password()
+    });
+    expect(userResponse.status).eq(200);
+  });
 });

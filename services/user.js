@@ -26,6 +26,17 @@ exports.create = async params => {
   return { status: 200, message: "User created successfully.", user: newUser };
 };
 
+exports.updatePassword = async params => {
+  const user = UserEntity.update(params);
+  user.password = await user.setPassword(params.password);
+  const password = await UserStore.update(user);
+  if (password.isUpdated) {
+    return { status: 200, message: "Password updated successfully." };
+  } else {
+    return { status: 400, message: user.error };
+  }
+};
+
 // exports.generateAuthToken = user => {
 //   const token = jwt.sign(
 //     { _id: user._id, isAdmin: user.isAdmin },

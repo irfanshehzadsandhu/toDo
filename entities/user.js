@@ -15,6 +15,14 @@ class UserEntity {
     return userObj;
   }
 
+  static update(params) {
+    const userID = params.userID;
+    const name = params.name;
+    const email = params.email;
+    const userObj = new UserEntity(userID, name, email);
+    return userObj;
+  }
+
   static createFromObject(obj) {
     const userID = uuidv1();
     const name = obj.name;

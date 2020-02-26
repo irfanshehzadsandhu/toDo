@@ -22,16 +22,21 @@ class UserStore {
   static async update(user) {
     //updateOne() returns information of updated document e.g { n: 1, nModified: 0, ok: 1 }
     // findOneAndUpdate() returns updated document.
-    const updatedUser = await User.findOneAndUpdate(
-      { userID: user.userID },
-      user,
-      function() {}
-    );
-    return updatedUser;
+    const updated = await User.updateOne({ userID: user.userID }, user);
+    if (updated.nModified == 1) {
+      return { isUpdated: true };
+    } else {
+      return { isUpdated: false };
+    }
   }
   static async remove(user) {
     //deleteOne will delete at most document matching the query.
-    await User.deleteOne(user);
+    const deletedUserResponse = await User.deleteOne(user);
+    if (deletedUserResponse.deletedCount == 1) {
+      return { isDeleted: true };
+    } else {
+      return { isDeleted: false };
+    }
   }
   static async isPresent(user) {
     return await User.exists(user);
