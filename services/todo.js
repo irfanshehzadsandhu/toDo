@@ -14,3 +14,20 @@ exports.create = async params => {
   const newToDo = await ToDoStore.add(toDo);
   return { status: 200, message: "ToDo created successfully.", toDo: newToDo };
 };
+
+exports.update = async params => {
+  const updatedToDo = await ToDoStore.update(params);
+  return {
+    status: 200,
+    message: "ToDo updated successfully.",
+    toDo: updatedToDo
+  };
+};
+
+exports.remove = async params => {
+  await ToDoStore.remove(params);
+  return {
+    status: 200,
+    message: "ToDo deleted successfully."
+  };
+};

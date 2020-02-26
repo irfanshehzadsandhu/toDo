@@ -5,8 +5,8 @@ const TodoEntity = require("../../entities/todo");
 const toDoDetails = require("../helper/todo");
 
 describe("ToDo Service methods", async () => {
-  const toDo = TodoEntity.createFromObject(toDoDetails);
   beforeEach(async () => {
+    const toDo = TodoEntity.createFromObject(toDoDetails);
     await ToDoStore.add(toDo);
   });
 
@@ -21,5 +21,22 @@ describe("ToDo Service methods", async () => {
       completed: true
     });
     expect(toDo.status).eq(200);
+  });
+
+  it("toDo should be updated.", async () => {
+    const latestToDos = await ToDoStore.first();
+    const toDo = latestToDos[0];
+    const updatedToDo = await ToDoService.update({
+      toDoID: toDo.toDoID,
+      completed: true
+    });
+    expect(updatedToDo.status).eq(200);
+  });
+
+  it("toDo should be removed.", async () => {
+    const latestToDos = await ToDoStore.first();
+    const toDo = latestToDos[0];
+    const deletedToDo = await ToDoService.remove(toDo);
+    expect(deletedToDo.status).eq(200);
   });
 });
