@@ -1,5 +1,5 @@
 const app = require("../http/bootstrap/app");
-const configuration = require("../config");
-app.listen(configuration.PORT, () => {
-  console.log("Server is up and running on port number " + configuration.PORT);
+const {db} = require("../config");
+app.listen(db.port, () => {
+  console.log("Server is up and running on port number " + db.port);
 });

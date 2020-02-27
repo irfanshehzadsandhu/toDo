@@ -1,7 +1,7 @@
 // Current User
-const userService = require("../../../../services/user.service");
+const userService = require("../../../../services/user");
 exports.current = async (req, res) => {
-  const user = await userService.current(req.user._id);
+  const user = await userService.current(req.user.userID);
   res.send(user);
 };
 
@@ -10,11 +10,11 @@ exports.create = async (req, res) => {
   if (serviceResponse.status == 400) {
     res.send(serviceResponse.message);
   }
-  let user = serviceResponse.user;
-  const token = await userService.generateAuthToken(user);
+  const newUser = serviceResponse.newUser;
+  const token = await userService.generateAuthToken(newUser.userID);
   res.header("x-auth-token", token).send({
-    _id: user._id,
-    name: user.name,
-    email: user.email
+    userID: newUser.userID,
+    name: newUser.name,
+    email: newUser.email
   });
 };

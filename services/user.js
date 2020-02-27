@@ -1,6 +1,9 @@
 const validate = require("../validators/userValidator");
 const UserStore = require("../stores/userStore");
 const UserEntity = require("../entities/user");
+const Jwt = require("jsonwebtoken");
+const { app } = require("../config");
+const { myPrivateKey } = require("../config");
 exports.current = userID => {
   const user = UserStore.findByUserID(userID);
   return user;
@@ -23,17 +26,7 @@ exports.create = async params => {
   const user = UserEntity.create(params); //Create a user entity first.
   user.password = await user.setPassword(params.password);
   const newUser = await UserStore.add(user);
-  if (newUser.isCreated) {
-    return {
-      status: 200,
-      message: "User created successfully.",
-      user: newUser
-    };
-  } else {
-    return {
-      status: 400
-    };
-  }
+  return newUser;
 };
 
 exports.updatePassword = async params => {
@@ -47,10 +40,7 @@ exports.updatePassword = async params => {
   }
 };
 
-// exports.generateAuthToken = user => {
-//   const token = jwt.sign(
-//     { _id: user._id, isAdmin: user.isAdmin },
-//     configuration.MYPRIVATEKEY
-//   );
-//   return token;
-// };
+exports.generateAuthToken = userID => {
+  const token = Jwt.sign({ userID: userID }, app.myPrivateKey);
+  return token;
+};

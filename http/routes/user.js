@@ -1,9 +1,9 @@
 const auth = require("../middleware/auth");
 const express = require("express");
 const router = express.Router();
-const users_controller = require("../controllers/api/v1/users.controller");
+const usersController = require("../controllers/api/v1/users");
 
-router.get("/current", auth, users_controller.current);
-router.post("/", users_controller.create);
+router.get("/current", auth, usersController.current);
+router.post("/", usersController.create);
 
 module.exports = router;
