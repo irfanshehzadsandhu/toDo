@@ -7,18 +7,13 @@ class UserEntity {
     this.email = email;
   }
 
-  static create(params) {
+  static createFromDetails(params) {
     const userObj = new UserEntity(uuidv1(), params.name, params.email);
     return userObj;
   }
 
-  static update(params) {
-    const userObj = new UserEntity(params.userID, params.name, params.email);
-    return userObj;
-  }
-
   static createFromObject(obj) {
-    const userObj = new UserEntity(uuidv1(), obj.name, obj.email);
+    const userObj = new UserEntity(obj.userID, obj.name, obj.email);
     return userObj;
   }
 

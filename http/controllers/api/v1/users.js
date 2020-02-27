@@ -7,7 +7,7 @@ exports.current = async (req, res) => {
 
 exports.create = async (req, res) => {
   const serviceResponse = await userService.create(req.body);
-  if (serviceResponse.status == 400) {
+  if (serviceResponse.status == 403) {
     res.send(serviceResponse.message);
   }
   const newUser = serviceResponse.newUser;
