@@ -3,7 +3,12 @@ const ToDo = require("../models/todo");
 class ToDoStore {
   static async add(toDo) {
     //create() for saving many documents at a time. Create is basically using save() for each document
-    return await ToDo.create(toDo);
+    try {
+      const newToDo = await ToDo.create(toDo);
+      return { isCreated: true, todo: newToDo };
+    } catch (e) {
+      return { isCreated: false };
+    }
   }
 
   static async findAll() {
@@ -19,17 +24,25 @@ class ToDoStore {
   static async update(toDo) {
     //updateOne() returns information of updated document e.g { n: 1, nModified: 0, ok: 1 }
     // findOneAndUpdate() returns updated document.
-    const updatedToDo = await ToDo.findOneAndUpdate(
-      { toDoID: toDo.toDoID },
-      user,
-      function() {}
-    );
-    return updatedToDo;
+    const updated = await ToDo.updateOne({ toDoID: toDo.toDoID }, toDo);
+
+    if (updated.nModified == 1) {
+      return { isUpdated: true };
+    } else {
+      return { isUpdated: false };
+    }
   }
+
   static async remove(toDo) {
     //deleteOne will delete at most document matching the query.
-    await ToDo.deleteOne(toDo);
+    const deleted = await ToDo.deleteOne(toDo);
+    if (deleted.deletedCount == 1) {
+      return { isDeleted: true };
+    } else {
+      return { isDeleted: false };
+    }
   }
+
   static async isPresent(toDo) {
     return await ToDo.exists(toDo);
   }
