@@ -6,7 +6,7 @@ const userDetails = require("../helper/user");
 const UserEntity = require("../../entities/user");
 describe("User Service methods", async () => {
   beforeEach(async () => {
-    const userObj = UserEntity.createFromObject(userDetails);
+    const userObj = UserEntity.createFromDetails(userDetails);
     userObj.password = await userObj.setPassword(faker.internet.password());
     await UserStore.add(userObj);
   });
@@ -19,7 +19,7 @@ describe("User Service methods", async () => {
     };
 
     const error = await userService.create(userRequestBody);
-    expect(error.status).eq(400);
+    expect(error.status).eq(403);
   });
 
   it("expects user is already created.", async () => {
@@ -29,7 +29,7 @@ describe("User Service methods", async () => {
       password: faker.internet.password()
     };
     const error = await userService.create(userRequestBody);
-    expect(error.status).eq(400);
+    expect(error.status).eq(403);
     expect(error.message).eq("User already registered.");
   });
 
@@ -40,8 +40,7 @@ describe("User Service methods", async () => {
       password: faker.internet.password()
     };
     const userResponse = await userService.create(userRequestBody);
-    expect(userResponse.status).eq(200);
-    expect(userResponse.message).eq("User created successfully.");
+    expect(userResponse.isCreated).eq(true);
   });
 
   it("should update user password", async () => {

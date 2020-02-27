@@ -29,16 +29,17 @@ exports.create = async params => {
   return newUser;
 };
 
-// exports.updatePassword = async params => {
-//   const user = UserEntity.update(params);
-//   user.password = await user.setPassword(params.password);
-//   const passwordUpdatedInfo = await UserStore.update(user);
-//   if (passwordUpdatedInfo.isUpdated) {
-//     return { status: 200, message: "Password updated successfully." };
-//   } else {
-//     return { status: 403, message: user.error };
-//   }
-// };
+exports.updatePassword = async params => {
+  const userFromDb = await UserStore.findByUserID(params.userID);
+  const user = UserEntity.createFromObject(userFromDb);
+  user.password = await user.setPassword(params.password);
+  const passwordUpdatedInfo = await UserStore.update(user);
+  if (passwordUpdatedInfo.isUpdated) {
+    return { status: 200, message: "Password updated successfully." };
+  } else {
+    return { status: 403, message: user.error };
+  }
+};
 
 exports.generateAuthToken = userID => {
   const token = Jwt.sign({ userID: userID }, app.myPrivateKey);

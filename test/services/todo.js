@@ -6,13 +6,13 @@ const toDoDetails = require("../helper/todo");
 
 describe("ToDo Service methods", async () => {
   beforeEach(async () => {
-    const toDo = TodoEntity.createFromObject(toDoDetails);
+    const toDo = TodoEntity.createFromDetails(toDoDetails);
     await ToDoStore.add(toDo);
   });
 
   it("expects todo must not be created due to validation.", async () => {
     const error = await ToDoService.create({});
-    expect(error.status).eq(400);
+    expect(error.status).eq(403);
   });
 
   it("toDo should be created.", async () => {
@@ -20,7 +20,7 @@ describe("ToDo Service methods", async () => {
       description: "I am testing",
       completed: true
     });
-    expect(toDo.status).eq(200);
+    expect(toDo.isCreated).eq(true);
   });
 
   it("toDo should be updated.", async () => {
@@ -28,15 +28,15 @@ describe("ToDo Service methods", async () => {
     const toDo = latestToDos[0];
     const updatedToDo = await ToDoService.update({
       toDoID: toDo.toDoID,
-      completed: true
+      description: "Testing"
     });
-    expect(updatedToDo.status).eq(200);
+    expect(updatedToDo.isUpdated).eq(true);
   });
 
   it("toDo should be removed.", async () => {
     const latestToDos = await ToDoStore.first();
     const toDo = latestToDos[0];
     const deletedToDo = await ToDoService.remove(toDo);
-    expect(deletedToDo.status).eq(200);
+    expect(deletedToDo.isDeleted).eq(true);
   });
 });

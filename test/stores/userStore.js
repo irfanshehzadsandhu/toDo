@@ -5,7 +5,7 @@ const userDetails = require("../helper/user");
 const UserEntity = require("../../entities/user");
 describe("User Store methods", async () => {
   beforeEach(async () => {
-    const userObj = UserEntity.createFromObject(userDetails);
+    const userObj = UserEntity.createFromDetails(userDetails);
     userObj.password = await userObj.setPassword(faker.internet.password());
     await UserStore.add(userObj);
   });
