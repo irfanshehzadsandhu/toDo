@@ -18,7 +18,7 @@ class UserEntity {
   }
 
   async setPassword(password) {
-    return await bcrypt.hash(password, 10);
+    this.password = await bcrypt.hash(password, 10);
   }
 }
 

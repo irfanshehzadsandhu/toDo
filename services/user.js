@@ -2,6 +2,7 @@ const validate = require("../validators/userValidator");
 const UserStore = require("../stores/userStore");
 const UserEntity = require("../entities/user");
 const Jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const { app } = require("../config");
 
 exports.current = async userID => {
@@ -24,15 +25,16 @@ exports.create = async params => {
   }
   //Create a user from entity first
   const user = UserEntity.createFromDetails(params); //Create a user entity first.
-  user.password = await user.setPassword(params.password);
-  const newUser = await UserStore.add(user);
-  return newUser;
+  await user.setPassword(params.password);
+  await UserStore.add(user);
+  return { token: generateAuthToken(user.userID) };
 };
 
 exports.updatePassword = async params => {
   const userFromDb = await UserStore.findByUserID(params.userID);
   const user = UserEntity.createFromObject(userFromDb);
-  user.password = await user.setPassword(params.password);
+  await user.setPassword(params.password);
+  //return boolean value from UserStore only
   const passwordUpdatedInfo = await UserStore.update(user);
   if (passwordUpdatedInfo.isUpdated) {
     return { status: 200, message: "Password updated successfully." };
@@ -41,7 +43,19 @@ exports.updatePassword = async params => {
   }
 };
 
-exports.generateAuthToken = userID => {
-  const token = Jwt.sign({ userID: userID }, app.myPrivateKey);
-  return token;
+exports.createSession = async params => {
+  const userIsPresent = await UserStore.findByEmail(params.email);
+  if (!userIsPresent) {
+    return { code: 403, message: "Invalid Email" };
+  }
+  //Match password
+  if (!bcrypt.compare(params.password, userIsPresent.password)) {
+    return { code: 403, message: "Invalid Password" };
+  }
+
+  return { token: generateAuthToken(userIsPresent.userID) };
 };
+
+function generateAuthToken(userID) {
+  return Jwt.sign({ userID: userID }, app.myPrivateKey);
+}

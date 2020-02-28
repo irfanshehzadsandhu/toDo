@@ -10,11 +10,9 @@ exports.create = async (req, res) => {
   if (serviceResponse.status == 403) {
     res.send(serviceResponse.message);
   }
-  const newUser = serviceResponse.newUser;
-  const token = await userService.generateAuthToken(newUser.userID);
-  res.header("x-auth-token", token).send({
-    userID: newUser.userID,
-    name: newUser.name,
-    email: newUser.email
+
+  res.header("x-auth-token", serviceResponse.token).send({
+    code: 200,
+    message: "Signed Up successfully."
   });
 };
