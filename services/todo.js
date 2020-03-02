@@ -4,12 +4,20 @@ const ToDoEntity = require("../entities/todo");
 
 exports.find = async toDoID => {
   const toDo = await ToDoStore.findByToDoID(toDoID);
-  return ToDoEntity.createFromObject(toDo);
+  if (toDo) {
+    return { toDo: toDo };
+  } else {
+    return { code: 403, message: "ToDo not found." };
+  }
 };
 
 exports.all = async () => {
   const toDos = await ToDoStore.findAll();
-  return toDos.map(toDo => ToDoEntity.createFromObject(toDo));
+  if (toDos) {
+    return { toDos: toDos };
+  } else {
+    return { code: 403, message: "ToDos not found." };
+  }
 };
 
 exports.create = async params => {
@@ -20,16 +28,27 @@ exports.create = async params => {
   }
 
   //Create a toDo from entity first
-  const toDo = ToDoEntity.createFromDetails(params);
-  return await ToDoStore.add(toDo);
+  const toDoToAdd = ToDoEntity.createFromDetails(params);
+  const toDo = await ToDoStore.add(toDoToAdd);
+  if (toDo) {
+    return { toDo: toDo };
+  } else {
+    return { code: 403, message: "ToDo not created." };
+  }
 };
 
 exports.update = async params => {
-  const response = ToDoStore.update(params);
-  return await response;
+  const toDoToUpdate = ToDoEntity.createFromObject(params);
+  const toDo = await ToDoStore.update(toDoToUpdate);
+  if (toDo) {
+    return { toDo: toDo };
+  } else {
+    return { code: 403, message: "ToDo not created." };
+  }
 };
 
 exports.remove = async params => {
   const toDo = await ToDoStore.findByToDoID(params.toDoID);
-  return await ToDoStore.remove(toDo);
+  const toDoForDeletion = ToDoEntity.createFromObject(toDo); //Without using createFromObject it store remove next object even object is already deleted.
+  return await ToDoStore.remove(toDoForDeletion);
 };

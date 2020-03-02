@@ -1,37 +1,40 @@
 const toDoService = require("../../../../services/todo");
 exports.find = async (req, res) => {
-  const toDoServiceResponse = await toDoService.find(req.toDoID);
-  res.send(toDoServiceResponse);
+  try {
+    res.send(await toDoService.find(req.toDoID));
+  } catch (e) {
+    res.send("Something went wrong.");
+  }
 };
 
 exports.all = async (req, res) => {
-  const toDoServiceResponse = await toDoService.all();
-  res.send(toDoServiceResponse);
+  try {
+    res.send(await toDoService.all());
+  } catch (e) {
+    res.send("Something went wrong.");
+  }
 };
 
 exports.create = async (req, res) => {
-  const response = await toDoService.create(req.body);
-  if (response.isCreated) {
-    res.send({ isCreated: true, code: 200, todo: response.todo });
-  } else {
-    res.send({ isCreated: false, code: 403 });
+  try {
+    res.send(await toDoService.create(req.body));
+  } catch (e) {
+    res.send("Something went wrong.");
   }
 };
 
 exports.update = async (req, res) => {
-  const response = await toDoService.update(req.body);
-  if (response.isUpdated) {
-    res.send({ isUpdated: true, code: 200 });
-  } else {
-    res.send({ isUpdated: false, code: 403 });
+  try {
+    res.send(await toDoService.update(req.body));
+  } catch (e) {
+    res.send("Something went wrong.");
   }
 };
 
 exports.destroy = async (req, res) => {
-  const response = await toDoService.remove(req.body);
-  if (response.isDeleted) {
-    res.send({ isDeleted: true, code: 200 });
-  } else {
-    res.send({ isDeleted: false, code: 403 });
+  try {
+    res.send(await toDoService.remove(req.body));
+  } catch (e) {
+    res.send("Something went wrong.");
   }
 };

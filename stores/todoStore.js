@@ -1,60 +1,63 @@
-const uuidv1 = require("uuid/v1");
 const ToDo = require("../models/todo");
+const ToDoEntity = require("../entities/todo");
 class ToDoStore {
   static async add(toDo) {
     //create() for saving many documents at a time. Create is basically using save() for each document
-    try {
-      const newToDo = await ToDo.create(toDo);
-      return { isCreated: true, todo: newToDo };
-    } catch (e) {
-      return { isCreated: false };
-    }
+    const newToDo = await ToDo.create(toDo);
+    return ToDoEntity.createFromObject(newToDo);
   }
 
   static async findAll() {
     //find() returns an array of documents
-    return await ToDo.find({});
+    const toDos = await ToDo.find({});
+    return toDos.map(toDo => ToDoEntity.createFromObject(toDo));
   }
 
   static async findByToDoID(toDoID) {
     //findOne() returns at most one document and findMany will return all documents matching the query.
-    return await ToDo.findOne({ toDoID: toDoID });
+    const toDo = await ToDo.findOne({ toDoID: toDoID });
+    if (toDo) {
+      return ToDoEntity.createFromObject(toDo);
+    }
   }
 
   static async update(toDo) {
     //updateOne() returns information of updated document e.g { n: 1, nModified: 0, ok: 1 }
     // findOneAndUpdate() returns updated document.
-    const updated = await ToDo.updateOne({ toDoID: toDo.toDoID }, toDo);
-
-    if (updated.nModified == 1) {
-      return { isUpdated: true };
-    } else {
-      return { isUpdated: false };
+    //By default, findOneAndUpdate() returns the document as it was before update was applied.
+    const updatedToDo = await ToDo.findOneAndUpdate(
+      { toDoID: toDo.toDoID },
+      toDo,
+      {
+        new: true // this will return the updated document
+      }
+    );
+    if (updatedToDo) {
+      return ToDoEntity.createFromObject(updatedToDo);
     }
   }
 
   static async remove(toDo) {
     //deleteOne will delete at most document matching the query.
-    const deleted = await ToDo.deleteOne(toDo);
-    if (deleted.deletedCount == 1) {
-      return { isDeleted: true };
-    } else {
-      return { isDeleted: false };
-    }
+    const result = await ToDo.findOneAndRemove(toDo);
+    console.log(result);
+    return result;
   }
 
   static async isPresent(toDo) {
     return await ToDo.exists(toDo);
   }
   static async first(limit = 1) {
-    return await ToDo.find()
+    const toDos = await ToDo.find()
       .sort({ createdAt: -1 })
       .limit(limit);
+    return toDos.map(toDo => ToDoEntity.createFromObject(toDo));
   }
   static async last(limit = 1) {
-    return await ToDo.find()
+    const toDos = await ToDo.find()
       .sort({ createdAt: 1 })
       .limit(limit);
+    return toDos.map(toDo => ToDoEntity.createFromObject(toDo));
   }
 
   static async count() {
