@@ -6,7 +6,7 @@ const UserEntity = require("../../entities/user");
 describe("User Store methods", async () => {
   beforeEach(async () => {
     const userObj = UserEntity.createFromDetails(userDetails);
-    userObj.password = await userObj.setPassword(faker.internet.password());
+    await userObj.setPassword(faker.internet.password());
     await UserStore.add(userObj);
   });
 
@@ -19,7 +19,7 @@ describe("User Store methods", async () => {
     const latestUsers = await UserStore.first();
     const user = latestUsers[0];
     const userFromDb = await UserStore.findByUserID(user.userID);
-    expect(userFromDb.userID).eq(user.userID);
+    expect(userFromDb).to.be.instanceOf(UserEntity);
   });
 
   it("should return oldest users.", async () => {
@@ -37,29 +37,5 @@ describe("User Store methods", async () => {
     const user = latestUsers[0];
     const result = await UserStore.isPresent(user);
     expect(result).eq(true);
-  });
-
-  it("should find user with given email.", async () => {
-    const latestUsers = await UserStore.first();
-    const user = latestUsers[0];
-    const userFromDb = await UserStore.findByEmail(user.email);
-    expect(userFromDb.email).eq(user.email);
-  });
-
-  it("should update user with given details.", async () => {
-    const latestUsers = await UserStore.first();
-    const user = latestUsers[0];
-    const updatedUserInfo = await UserStore.update({
-      userID: user.userID,
-      name: faker.name.findName()
-    });
-    expect(updatedUserInfo.isUpdated).eq(true);
-  });
-
-  it("should delete user with given userID.", async () => {
-    const latestUsers = await UserStore.first();
-    const user = latestUsers[0];
-    const deletedUserResponse = await UserStore.remove(user);
-    expect(deletedUserResponse.isDeleted).eq(true);
   });
 });

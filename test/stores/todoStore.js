@@ -1,10 +1,10 @@
 const expect = require("chai").expect;
 const ToDoStore = require("../../stores/todoStore");
-const TodoEntity = require("../../entities/todo");
+const ToDoEntity = require("../../entities/todo");
 const toDoDetails = require("../helper/todo");
 describe("ToDo Store methods", async () => {
   beforeEach(async () => {
-    const toDo = TodoEntity.createFromDetails(toDoDetails);
+    const toDo = ToDoEntity.createFromDetails(toDoDetails);
     await ToDoStore.add(toDo);
   });
 
@@ -40,12 +40,11 @@ describe("ToDo Store methods", async () => {
   it("should update ToDo with given details.", async () => {
     const toDoList = await ToDoStore.first();
     const toDo = toDoList[0];
-    const completed = true;
     const updatedToDoInfo = await ToDoStore.update({
       toDoID: toDo.toDoID,
       description: "Testing"
     });
-    expect(updatedToDoInfo.isUpdated).eq(true);
+    expect(updatedToDoInfo).to.be.an.instanceOf(ToDoEntity);
   });
 
   it("should delete ToDo with given ToDoID.", async () => {

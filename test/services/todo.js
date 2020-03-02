@@ -1,12 +1,12 @@
 const expect = require("chai").expect;
 const ToDoService = require("../../services/todo");
 const ToDoStore = require("../../stores/todoStore");
-const TodoEntity = require("../../entities/todo");
+const ToDoEntity = require("../../entities/todo");
 const toDoDetails = require("../helper/todo");
 
 describe("ToDo Service methods", async () => {
   beforeEach(async () => {
-    const toDo = TodoEntity.createFromDetails(toDoDetails);
+    const toDo = ToDoEntity.createFromDetails(toDoDetails);
     await ToDoStore.add(toDo);
   });
 
@@ -16,11 +16,11 @@ describe("ToDo Service methods", async () => {
   });
 
   it("toDo should be created.", async () => {
-    const toDo = await ToDoService.create({
+    const createdToDo = await ToDoService.create({
       description: "I am testing",
       completed: true
     });
-    expect(toDo.isCreated).eq(true);
+    expect(createdToDo.toDo).to.be.an.instanceOf(ToDoEntity);
   });
 
   it("toDo should be updated.", async () => {
@@ -30,13 +30,13 @@ describe("ToDo Service methods", async () => {
       toDoID: toDo.toDoID,
       description: "Testing"
     });
-    expect(updatedToDo.isUpdated).eq(true);
+    expect(updatedToDo.toDo).to.be.an.instanceOf(ToDoEntity);
   });
 
   it("toDo should be removed.", async () => {
     const latestToDos = await ToDoStore.first();
     const toDo = latestToDos[0];
     const deletedToDo = await ToDoService.remove(toDo);
-    expect(deletedToDo.isDeleted).eq(true);
+    expect(deletedToDo).to.be.an.instanceOf(Object);
   });
 });

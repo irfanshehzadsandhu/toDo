@@ -7,7 +7,7 @@ const UserEntity = require("../../entities/user");
 describe("User Service methods", async () => {
   beforeEach(async () => {
     const userObj = UserEntity.createFromDetails(userDetails);
-    userObj.password = await userObj.setPassword(faker.internet.password());
+    await userObj.setPassword(faker.internet.password());
     await UserStore.add(userObj);
   });
 
@@ -19,7 +19,7 @@ describe("User Service methods", async () => {
     };
 
     const error = await userService.create(userRequestBody);
-    expect(error.status).eq(403);
+    expect(error.errorMessage).eq('"name" is not allowed to be empty');
   });
 
   it("expects user is already created.", async () => {
@@ -29,8 +29,7 @@ describe("User Service methods", async () => {
       password: faker.internet.password()
     };
     const error = await userService.create(userRequestBody);
-    expect(error.status).eq(403);
-    expect(error.message).eq("User already registered.");
+    expect(error.errorMessage).eq("User already registered.");
   });
 
   it("creates a user", async () => {
@@ -40,7 +39,7 @@ describe("User Service methods", async () => {
       password: faker.internet.password()
     };
     const userResponse = await userService.create(userRequestBody);
-    expect(userResponse.isCreated).eq(true);
+    expect(userResponse.user).to.be.an.instanceOf(UserEntity);
   });
 
   it("should update user password", async () => {
@@ -50,6 +49,6 @@ describe("User Service methods", async () => {
       userID: user.userID,
       password: faker.internet.password()
     });
-    expect(userResponse.status).eq(200);
+    expect(userResponse.message).eq("Password updated successfully.");
   });
 });
