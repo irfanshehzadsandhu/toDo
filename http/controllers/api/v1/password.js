@@ -1,9 +1,10 @@
 const userService = require("../../../../services/user");
 
-exports.create = async (req, res) => {
+exports.update = async (req, res) => {
   try {
-    res.send(await userService.createSession(req.body));
+    res.send(await userService.updatePassword(req.body));
   } catch (e) {
+    console.log(e);
     res.send("Something went wrong.");
   }
 };

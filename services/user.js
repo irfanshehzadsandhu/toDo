@@ -6,40 +6,36 @@ const bcrypt = require("bcrypt");
 const { app } = require("../config");
 
 exports.current = async userID => {
-  const user = await UserStore.findByUserID(userID);
-  return UserEntity.createFromObject(user);
+  return await UserStore.findByUserID(userID);
 };
 
 exports.create = async params => {
   // validate the request body first
   const { error } = validate(params);
   if (error) {
-    return { status: 403, message: error.details[0].message };
+    return { errorMessage: error.details[0].message };
   }
-
   //find an existing user
   const userIsPresent = await UserStore.findByEmail(params.email);
-
   if (userIsPresent) {
-    return { status: 403, message: "User already registered." };
+    return { errorMessage: "User already registered." };
   }
   //Create a user from entity first
   const user = UserEntity.createFromDetails(params); //Create a user entity first.
-  await user.setPassword(params.password);
-  await UserStore.add(user);
-  return { token: generateAuthToken(user.userID) };
+  await user.setPassword(params.password); //adding await due to bycrypt.
+  const newUser = await UserStore.add(user);
+  return { token: generateAuthToken(user.userID), user: newUser };
 };
 
 exports.updatePassword = async params => {
   const userFromDb = await UserStore.findByUserID(params.userID);
   const user = UserEntity.createFromObject(userFromDb);
-  await user.setPassword(params.password);
-  //return boolean value from UserStore only
-  const passwordUpdatedInfo = await UserStore.update(user);
-  if (passwordUpdatedInfo.isUpdated) {
-    return { status: 200, message: "Password updated successfully." };
+  await user.setPassword(params.password); //adding await due to bycrypt.
+  const passwordUpdated = await UserStore.update(user);
+  if (passwordUpdated) {
+    return { code: 200, message: "Password updated successfully." };
   } else {
-    return { status: 403, message: user.error };
+    return { code: 403, message: user.error };
   }
 };
 

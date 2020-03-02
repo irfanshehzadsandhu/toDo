@@ -1,65 +1,58 @@
 const User = require("../models/user");
+const UserEntity = require("../entities/user");
 class UserStore {
   static async add(user) {
-    try {
-      //create() for saving many documents at a time. Create is basically using save() for each document
-      const newUser = await User.create(user);
-      return { isCreated: true, newUser: newUser };
-    } catch (e) {
-      return { isCreated: false };
-    }
+    //create() for saving many documents at a time. Create is basically using save() for each document
+    const newUser = await User.create(user);
+    return UserEntity.createFromObject(newUser);
   }
 
   static async findAll() {
     //find() returns an array of documents
-    return await User.find({});
+    const users = await User.find({});
+    return users.map(user => UserEntity.createFromObject(user));
   }
 
   static async findByUserID(userID) {
     //findOne() returns at most one document and findMany will return all documents matching the query.
-    return await User.findOne({ userID: userID });
+    const user = await User.findOne({ userID: userID });
+    if (user) {
+      return UserEntity.createFromObject(user);
+    }
   }
 
   static async findByEmail(email) {
-    return await User.findOne({ email: email });
+    const user = await User.findOne({ email: email });
+    if (user) {
+      return UserEntity.createFromObject(user);
+    }
   }
 
   static async update(user) {
     //updateOne() returns information of updated document e.g { n: 1, nModified: 0, ok: 1 }
     // findOneAndUpdate() returns updated document.
-    const updated = await User.updateOne({ userID: user.userID }, user);
-    if (updated.nModified == 1) {
-      return { isUpdated: true };
-    } else {
-      return { isUpdated: false };
-    }
+    //By default, findOneAndUpdate() returns the document as it was before update was applied.
+    return await User.findOneAndUpdate({ userID: user.userID }, user, {
+      new: true // this will return the updated document
+    });
   }
-  static async remove(user) {
-    //deleteOne will delete at most document matching the query.
-    const deletedUserResponse = await User.deleteOne(user);
-    if (deletedUserResponse.deletedCount == 1) {
-      return { isDeleted: true };
-    } else {
-      return { isDeleted: false };
-    }
-  }
+
   static async isPresent(user) {
     return await User.exists(user);
   }
   static async first(limit = 1) {
-    return await User.find()
+    const users = await User.find()
       .sort({ createdAt: -1 })
       .limit(limit);
+    return users.map(user => UserEntity.createFromObject(user));
   }
   static async last(limit = 1) {
-    return await User.find()
+    const users = await User.find()
       .sort({ createdAt: 1 })
       .limit(limit);
+    return users.map(user => UserEntity.createFromObject(user));
   }
-  //TODO
-  // static async findOneOrCreate(user) {
-  //   return await User.findOneOrCreate(user);
-  // }
+
   static async count() {
     return User.count({});
   }
