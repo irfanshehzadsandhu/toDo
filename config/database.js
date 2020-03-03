@@ -1,4 +1,4 @@
-var env = require("common-env")();
+const env = require("common-env")();
 module.exports = env.getOrElseAll({
   host: {
     $default: "mongodb://localhost:27017/todo_application",

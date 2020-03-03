@@ -1,4 +1,4 @@
-var env = require("common-env")();
+const env = require("common-env")();
 module.exports = env.getOrElseAll({
   appName: {
     $default: "To Do Application",

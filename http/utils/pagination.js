@@ -30,7 +30,7 @@ module.exports = class Pagination {
     return this.currentPage() - 1;
   }
   offset() {
-    return this.prevPage() * perPage; //We will skipe previous pages records
+    return this.prevPage() * perPage; //We will skip previous records
   }
 
   paginationInfo() {
