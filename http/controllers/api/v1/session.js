@@ -1,11 +1,11 @@
 const userService = require("../../../../services/user");
 const googleAuth = require("../../../middleware/googleAuth");
-
+const logger = require("../../../logs");
 exports.create = async (req, res) => {
   try {
     res.send(await userService.createSession(req.body));
   } catch (e) {
-    res.send("Something went wrong.");
+    logger.debug(e);
   }
 };
 
