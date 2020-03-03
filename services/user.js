@@ -33,20 +33,20 @@ exports.updatePassword = async params => {
   await user.setPassword(params.password); //adding await due to bycrypt.
   const passwordUpdated = await UserStore.update(user);
   if (passwordUpdated) {
-    return { code: 200, message: "Password updated successfully." };
+    return { message: "Password updated successfully." };
   } else {
-    return { code: 403, message: user.error };
+    return { errorMessage: user.error };
   }
 };
 
 exports.createSession = async params => {
   const userIsPresent = await UserStore.findByEmail(params.email);
   if (!userIsPresent) {
-    return { code: 403, message: "Invalid Email" };
+    return { errorMessage: "Invalid Email" };
   }
   //Match password
   if (!bcrypt.compare(params.password, userIsPresent.password)) {
-    return { code: 403, message: "Invalid Password" };
+    return { errorMessage: "Invalid Password" };
   }
 
   return { token: generateAuthToken(userIsPresent.userID) };

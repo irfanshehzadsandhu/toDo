@@ -4,7 +4,7 @@ exports.current = async (req, res) => {
   try {
     res.send(await userService.current(req.user.userID));
   } catch (e) {
-    res.send("Something went wrong.");
+    res.status(403).json("Something went wrong.");
   }
 };
 

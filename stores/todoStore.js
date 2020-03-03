@@ -9,6 +9,11 @@ class ToDoStore {
 
   static async findAll() {
     //find() returns an array of documents
+    //search params
+    //pagination option
+    //offset
+    //limit
+    // class for paginated collection
     const toDos = await ToDo.find({});
     return toDos.map(toDo => ToDoEntity.createFromObject(toDo));
   }

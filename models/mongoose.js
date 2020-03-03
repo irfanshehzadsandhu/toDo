@@ -5,10 +5,10 @@ const mongoose = require("mongoose");
 const { db } = require("../config");
 //export this function and imported by server.js
 module.exports.connect = function() {
-  mongoose.connect(db.mongoDBUrl);
+  mongoose.connect(db.host);
 
   mongoose.connection.on("connected", function() {
-    console.log("Mongoose default connection is open to " + db.mongoDBUrl);
+    console.log("Mongoose default connection is open to " + db.host);
   });
 
   mongoose.connection.on("error", function(err) {
