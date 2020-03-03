@@ -1,5 +1,6 @@
 const ToDo = require("../models/todo");
 const ToDoEntity = require("../entities/todo");
+const Pagination = require("../http/utils/pagination");
 class ToDoStore {
   static async add(toDo) {
     //create() for saving many documents at a time. Create is basically using save() for each document
@@ -7,14 +8,16 @@ class ToDoStore {
     return ToDoEntity.createFromObject(newToDo);
   }
 
-  static async findAll() {
-    //find() returns an array of documents
-    //search params
-    //pagination option
-    //offset
-    //limit
-    // class for paginated collection
-    const toDos = await ToDo.find({});
+  static async findAll(search, page) {
+    const paginationInfo = new Pagination(
+      page,
+      await ToDo.count({})
+    ).paginationInfo();
+    console.log(paginationInfo);
+    const toDos = await ToDo.find()
+      .sort({ createdAt: 1 })
+      .skip(paginationInfo.offset)
+      .limit(paginationInfo.limit);
     return toDos.map(toDo => ToDoEntity.createFromObject(toDo));
   }
 

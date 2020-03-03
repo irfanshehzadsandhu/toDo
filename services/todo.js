@@ -11,13 +11,8 @@ exports.find = async toDoID => {
   }
 };
 
-exports.all = async () => {
-  const toDos = await ToDoStore.findAll();
-  if (toDos) {
-    return { toDos: toDos };
-  } else {
-    return { code: 403, message: "ToDos not found." };
-  }
+exports.all = async (search, page) => {
+  return await ToDoStore.findAll(search, page);
 };
 
 exports.create = async params => {
