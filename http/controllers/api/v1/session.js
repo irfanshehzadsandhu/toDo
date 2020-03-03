@@ -1,5 +1,6 @@
 const userService = require("../../../../services/user");
 const handleError = require("../../../utils/handleError");
+const googleAuth = require("../../../middleware/googleAuth");
 exports.create = async (req, res) => {
   try {
     res.status(200).json(await userService.createSession(req.body));

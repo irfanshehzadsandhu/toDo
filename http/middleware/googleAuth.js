@@ -1,19 +1,14 @@
 const { google } = require("googleapis");
 const { googleCredentials } = require("../../config");
-const googleConfig = {
-  clientId: googleCredentials.googleClientId,
-  clientSecret: googleCredentials.googleClientSecret,
-  redirect: googleCredentials.redirect
-};
 
 /**
  * Create the google auth object which gives us access to talk to google's apis.
  */
 function createConnection() {
   return new google.auth.OAuth2(
-    googleConfig.clientId,
-    googleConfig.clientSecret,
-    googleConfig.redirect
+    googleCredentials.googleClientId,
+    googleCredentials.googleClientSecret,
+    googleCredentials.redirect
   );
 }
 

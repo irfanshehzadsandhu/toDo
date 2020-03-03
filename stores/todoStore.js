@@ -13,10 +13,12 @@ class ToDoStore {
       parseInt(params.page) || 1,
       await ToDo.count({})
     ).paginationInfo();
-    const toDos = await ToDo.find({})
+    delete params.page;
+    const toDos = await ToDo.find(params)
       .sort({ createdAt: 1 })
-      .skip(paginationInfo.offset)
-      .limit(paginationInfo.limit);
+      .limit(paginationInfo.limit)
+      .skip(paginationInfo.offset);
+
     return {
       data: toDos.map(toDo => ToDoEntity.createFromObject(toDo)),
       paginationInfo: paginationInfo
@@ -50,7 +52,6 @@ class ToDoStore {
   static async remove(toDo) {
     //deleteOne will delete at most document matching the query.
     const result = await ToDo.findOneAndRemove(toDo);
-    console.log(result);
     return result;
   }
 
