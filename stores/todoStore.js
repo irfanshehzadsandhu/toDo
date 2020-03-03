@@ -10,11 +10,9 @@ class ToDoStore {
 
   static async findAll(params) {
     const paginationInfo = new Pagination(
-      parseInt(params.page),
+      parseInt(params.page) || 1,
       await ToDo.count({})
     ).paginationInfo();
-    delete params.page;
-    console.log(params);
     const toDos = await ToDo.find({})
       .sort({ createdAt: 1 })
       .skip(paginationInfo.offset)
