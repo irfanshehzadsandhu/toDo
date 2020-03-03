@@ -35,18 +35,18 @@ exports.updatePassword = async params => {
   if (passwordUpdated) {
     return { message: "Password updated successfully." };
   } else {
-    return { errorMessage: user.error };
+    throw new appError("Something went wrong.", 400);
   }
 };
 
 exports.createSession = async params => {
   const userIsPresent = await UserStore.findByEmail(params.email);
   if (!userIsPresent) {
-    return { errorMessage: "Invalid Email" };
+    throw new appError("Invalid Email.", 400);
   }
   //Match password
   if (!bcrypt.compare(params.password, userIsPresent.password)) {
-    return { errorMessage: "Invalid Password" };
+    throw new appError("Invalid Password.", 400);
   }
 
   return { token: generateAuthToken(userIsPresent.userID) };
