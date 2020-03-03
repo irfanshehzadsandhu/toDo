@@ -8,17 +8,21 @@ class ToDoStore {
     return ToDoEntity.createFromObject(newToDo);
   }
 
-  static async findAll(search, page) {
+  static async findAll(params) {
     const paginationInfo = new Pagination(
-      page,
+      parseInt(params.page),
       await ToDo.count({})
     ).paginationInfo();
-    console.log(paginationInfo);
-    const toDos = await ToDo.find()
+    delete params.page;
+    console.log(params);
+    const toDos = await ToDo.find({})
       .sort({ createdAt: 1 })
       .skip(paginationInfo.offset)
       .limit(paginationInfo.limit);
-    return toDos.map(toDo => ToDoEntity.createFromObject(toDo));
+    return {
+      data: toDos.map(toDo => ToDoEntity.createFromObject(toDo)),
+      paginationInfo: paginationInfo
+    };
   }
 
   static async findByToDoID(toDoID) {

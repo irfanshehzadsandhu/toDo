@@ -10,9 +10,7 @@ exports.find = async (req, res) => {
 
 exports.all = async (req, res) => {
   try {
-    res
-      .status(200)
-      .json(await toDoService.all(req.query.search, req.query.page));
+    res.status(200).json(await toDoService.all(req.query));
   } catch (e) {
     handleError(e, res);
   }

@@ -1,8 +1,8 @@
-const perPage = 7;
+const perPage = 10;
 module.exports = class Pagination {
-  constructor(page, totalItems) {
+  constructor(page, totalDocuments) {
     this.page = page;
-    this.totalItems = totalItems;
+    this.totalDocuments = totalDocuments;
   }
   perPage() {
     return perPage;
@@ -12,7 +12,7 @@ module.exports = class Pagination {
   }
 
   totalPages() {
-    return Math.ceil(this.totalItems / perPage);
+    return Math.ceil(this.totalDocuments / perPage);
   }
 
   hasNext() {
@@ -30,7 +30,7 @@ module.exports = class Pagination {
     return this.currentPage() - 1;
   }
   offset() {
-    return this.currentPage() * perPage - perPage;
+    return this.prevPage() * perPage; //We will skipe previous pages records
   }
 
   paginationInfo() {
