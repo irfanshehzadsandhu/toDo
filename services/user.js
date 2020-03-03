@@ -3,8 +3,8 @@ const UserStore = require("../stores/userStore");
 const UserEntity = require("../entities/user");
 const Jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { app } = require("../config");
-
+const { application } = require("../config");
+const appError = require("../http/errors/appError");
 exports.current = async userID => {
   return await UserStore.findByUserID(userID);
 };
@@ -13,12 +13,12 @@ exports.create = async params => {
   // validate the request body first
   const { error } = validate(params);
   if (error) {
-    return { errorMessage: error.details[0].message };
+    throw new appError(error.details[0].message, 400);
   }
   //find an existing user
   const userIsPresent = await UserStore.findByEmail(params.email);
   if (userIsPresent) {
-    return { errorMessage: "User already registered." };
+    throw new appError("Specified E-Mail is already taken", 400);
   }
   //Create a user from entity first
   const user = UserEntity.createFromDetails(params); //Create a user entity first.
@@ -53,5 +53,5 @@ exports.createSession = async params => {
 };
 
 function generateAuthToken(userID) {
-  return Jwt.sign({ userID: userID }, app.myPrivateKey);
+  return Jwt.sign({ userID: userID }, application.myPrivateKey);
 }

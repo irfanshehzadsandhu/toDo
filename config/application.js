@@ -5,7 +5,7 @@ module.exports = env.getOrElseAll({
     $aliases: ["APPNAME"]
   },
 
-  myprivatekey: {
+  myPrivateKey: {
     $default: "Lorem Ipsum",
     $aliases: ["MYPRIVATEKEY"]
   },

@@ -1,11 +1,11 @@
 // Current User
 const userService = require("../../../../services/user");
-const logger = require("../../../logs");
+const handleError = require("../../../utils/handleError");
 exports.current = async (req, res) => {
   try {
     res.send(await userService.current(req.user.userID));
   } catch (e) {
-    logger.debug(e);
+    handleError(e, res);
   }
 };
 
@@ -13,6 +13,6 @@ exports.create = async (req, res) => {
   try {
     res.send(await userService.create(req.body));
   } catch (e) {
-    logger.debug(e);
+    handleError(e, res);
   }
 };
