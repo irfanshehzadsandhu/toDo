@@ -12,7 +12,7 @@
   "author": "Irfan Shahzad",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^3.0.8",
+    "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "bunyan": "^1.8.12",
     "common-env": "^6.3.1",
@@ -22,13 +22,13 @@
     "jade": "^1.11.0",
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.1",
+    "mongoose": "^5.9.3",
     "pug": "^2.0.4",
     "uuid": "^3.4.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^7.0.1",
-    "faker": "^4.1.0"
+    "faker": "^4.1.0",
+    "mocha": "^7.1.0"
   }
 }
