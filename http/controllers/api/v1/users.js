@@ -1,7 +1,7 @@
 const { CommandBus, LoggerMiddleware } = require("simple-command-bus");
 const commandHandlerMiddelware = require("../../../../command/handlers");
 const createUserCommand = require("../../../../command/userCommand/createUserCommand");
-const userService = require("../../../../services/user");
+const currentUserCommand = require("../../../../command/userCommand/currentUserCommand");
 const handleError = require("../../../utils/handleError");
 
 const commandBus = new CommandBus([
@@ -11,7 +11,9 @@ const commandBus = new CommandBus([
 
 exports.current = async (req, res) => {
   try {
-    res.status(200).json(await userService.current(req.user.userID));
+    const { userID } = req.user.userID;
+    const command = new currentUserCommand(userID);
+    res.status(200).json(await commandBus.handle(command));
   } catch (e) {
     handleError(e, res);
   }
