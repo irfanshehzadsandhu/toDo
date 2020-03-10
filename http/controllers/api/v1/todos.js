@@ -3,7 +3,8 @@ const commandHandlerMiddelware = require("../../../../command/handlers");
 const createToDoCommand = require("../../../../command/toDoCommand/createToDoCommand");
 const allToDoCommand = require("../../../../command/toDoCommand/allToDoCommand");
 const findToDoCommand = require("../../../../command/toDoCommand/findToDoCommand");
-const toDoService = require("../../../../services/todo");
+const updateToDoCommand = require("../../../../command/toDoCommand/updateToDoCommand");
+const removeToDoCommand = require("../../../../command/toDoCommand/removeToDoCommand");
 const handleError = require("../../../utils/handleError");
 
 const commandBus = new CommandBus([
@@ -16,7 +17,6 @@ exports.find = async (req, res) => {
     const { toDoID } = req.toDoID;
     const command = new findToDoCommand(toDoID);
     res.status(200).json(await commandBus.handle(command));
-    //res.status(200).json(await toDoService.find(req.toDoID));
   } catch (e) {
     handleError(e, res);
   }
@@ -44,7 +44,13 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    res.status(200).json(await toDoService.update(req.body));
+    const { toDoID, description, completed } = req.body;
+    const command = new updateToDoCommand(
+      toDoID,
+      description,
+      Boolean(completed)
+    );
+    res.status(200).json(await commandBus.handle(command));
   } catch (e) {
     handleError(e, res);
   }
@@ -52,7 +58,9 @@ exports.update = async (req, res) => {
 
 exports.destroy = async (req, res) => {
   try {
-    res.status(200).json(await toDoService.remove(req.body));
+    const { toDoID } = req.toDoID;
+    const command = new removeToDoCommand(toDoID);
+    res.status(200).json(await commandBus.handle(command));
   } catch (e) {
     handleError(e, res);
   }
