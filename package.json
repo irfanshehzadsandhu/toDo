@@ -24,6 +24,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.3",
     "pug": "^2.0.4",
+    "simple-command-bus": "^1.0.7",
     "uuid": "^3.4.0"
   },
   "devDependencies": {
