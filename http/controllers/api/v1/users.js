@@ -1,12 +1,12 @@
 const { CommandBus, LoggerMiddleware } = require("simple-command-bus");
-const commandHandlerMiddelware = require("../../../../command/handlers");
+const commandHandlerMiddleware = require("../../../../command/handlers");
 const createUserCommand = require("../../../../command/userCommand/createUserCommand");
 const currentUserCommand = require("../../../../command/userCommand/currentUserCommand");
 const handleError = require("../../../utils/handleError");
 
 const commandBus = new CommandBus([
   new LoggerMiddleware(console),
-  commandHandlerMiddelware
+  commandHandlerMiddleware
 ]);
 
 exports.current = async (req, res) => {
