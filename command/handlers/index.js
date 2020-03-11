@@ -12,6 +12,7 @@ const RemoveToDoHandler = require("./toDoHandler/removeToDoHandler");
 
 const CreateUserHandler = require("./userHandler/createUserHandler");
 const CurrentUserHandler = require("./userHandler/currentUserHandler");
+const UpdatePasswordUserHandler = require("./userHandler/updatePasswordUserHandler");
 //Consider middlerware as a waiter , accepting orders from different clients and pass these orders to chef to cook food for clients
 const commandHandlerMiddleware = new CommandHandlerMiddleware(
   new ClassNameExtractor(),
@@ -22,7 +23,8 @@ const commandHandlerMiddleware = new CommandHandlerMiddleware(
     UpdateToDoHandler: new UpdateToDoHandler(),
     RemoveToDoHandler: new RemoveToDoHandler(),
     CreateUserHandler: new CreateUserHandler(),
-    CurrentUserHandler: new CurrentUserHandler()
+    CurrentUserHandler: new CurrentUserHandler(),
+    UpdatePasswordUserHandler: new UpdatePasswordUserHandler()
   }),
   new HandleInflector()
 );
