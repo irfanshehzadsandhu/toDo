@@ -1,7 +1,7 @@
 #https://itnext.io/dockerize-a-node-js-app-connected-to-mongodb-64fdeca94797 
 FROM node:12
 # Create app directory
-WORKDIR /usr/src/ToDoApplication
+WORKDIR /usr/src/App
 # Install app dependencies
 COPY package.json ./
 RUN npm install
