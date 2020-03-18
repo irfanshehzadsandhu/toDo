@@ -1,6 +1,7 @@
-class UserHandler {
+class ToDoHandler {
   async handle(command) {
     await command.execute();
   }
 }
-module.exports = UserHandler;
+
+module.exports = ToDoHandler;

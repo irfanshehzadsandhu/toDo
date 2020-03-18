@@ -4,10 +4,9 @@ const {
   InMemoryLocator,
   HandleInflector
 } = require("simple-command-bus");
-const ToDoHandler = require("../toDo/toDoHandler");
-
+const ToDoHandler = require("../toDo/handler");
 const UserHandler = require("../user/handler");
-//Consider middlerware as a waiter , accepting orders from different clients and pass these orders to chef to cook food for clients
+
 const commandHandlerMiddleware = new CommandHandlerMiddleware(
   new ClassNameExtractor(),
   new InMemoryLocator({
