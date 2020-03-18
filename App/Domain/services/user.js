@@ -9,11 +9,6 @@ exports.current = async userID => {
 };
 
 exports.create = async params => {
-  // validate the request body first
-  const { error } = validate(params);
-  if (error) {
-    throw new appError(error.details[0].message, 400);
-  }
   //find an existing user
   const userIsPresent = await UserStore.findByEmail(params.email);
   if (userIsPresent) {
