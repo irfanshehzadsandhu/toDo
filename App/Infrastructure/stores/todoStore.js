@@ -1,6 +1,6 @@
 const ToDo = require("../models/todo");
-const ToDoEntity = require("../entities/todo");
-const Pagination = require("../http/utils/pagination");
+const ToDoEntity = require("../../../App/Domain/entities/todo");
+const Pagination = require("../utils/pagination");
 class ToDoStore {
   static async add(toDo) {
     //create() for saving many documents at a time. Create is basically using save() for each document

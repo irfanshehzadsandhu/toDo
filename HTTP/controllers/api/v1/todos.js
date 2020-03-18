@@ -1,11 +1,11 @@
 const { CommandBus, LoggerMiddleware } = require("simple-command-bus");
 const commandHandlerMiddelware = require("../../../../App/Application/utils/applicationBinding");
-//const createToDoCommand = require("../../../../command/toDoCommand/createToDoCommand");
-//const allToDoCommand = require("../../../../command/toDoCommand/allToDoCommand");
-//const findToDoCommand = require("../../../../command/toDoCommand/findToDoCommand");
-//const updateToDoCommand = require("../../../../command/toDoCommand/updateToDoCommand");
-//const removeToDoCommand = require("../../../../command/toDoCommand/removeToDoCommand");
-//const handleError = require("../../../utils/handleError");
+const CreateToDoCommand = require("../../../../App/Application/toDo/createToDoCommand");
+const AllToDoCommand = require("../../../../App/Application/toDo/allToDoCommand");
+const FindToDoCommand = require("../../../../App/Application/toDo/findToDoCommand");
+const UpdateToDoCommand = require("../../../../App/Application/toDo/updateToDoCommand");
+const RemoveToDoCommand = require("../../../../App/Application/toDo/removeToDoCommand");
+const handleError = require("../../../utils/handleError");
 
 const commandBus = new CommandBus([
   new LoggerMiddleware(console),
@@ -15,7 +15,7 @@ const commandBus = new CommandBus([
 exports.find = async (req, res) => {
   try {
     const { toDoID } = req.toDoID;
-    const command = new findToDoCommand(toDoID);
+    const command = new FindToDoCommand(toDoID);
     res.status(200).json(await commandBus.handle(command));
   } catch (e) {
     handleError(e, res);
@@ -25,7 +25,7 @@ exports.find = async (req, res) => {
 exports.all = async (req, res) => {
   try {
     const { page, completed } = req.query;
-    const command = new allToDoCommand(page, completed);
+    const command = new AllToDoCommand(page, completed);
     res.status(200).json(await commandBus.handle(command));
   } catch (e) {
     handleError(e, res);
@@ -35,7 +35,7 @@ exports.all = async (req, res) => {
 exports.create = async (req, res) => {
   try {
     const { description, completed } = req.body;
-    const command = new createToDoCommand(description, completed);
+    const command = new CreateToDoCommand(description, completed);
     res.status(200).json(await commandBus.handle(command));
   } catch (e) {
     handleError(e, res);
@@ -45,7 +45,7 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const { toDoID, description, completed } = req.body;
-    const command = new updateToDoCommand(
+    const command = new UpdateToDoCommand(
       toDoID,
       description,
       Boolean(completed)
@@ -59,7 +59,7 @@ exports.update = async (req, res) => {
 exports.destroy = async (req, res) => {
   try {
     const { toDoID } = req.toDoID;
-    const command = new removeToDoCommand(toDoID);
+    const command = new RemoveToDoCommand(toDoID);
     res.status(200).json(await commandBus.handle(command));
   } catch (e) {
     handleError(e, res);

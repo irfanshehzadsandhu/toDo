@@ -1,7 +1,5 @@
-const validate = require("../validators/todoValidator");
-const ToDoStore = require("../stores/todoStore");
+const ToDoStore = require("../../Infrastructure/stores/todoStore");
 const ToDoEntity = require("../entities/todo");
-const appError = require("../http/errors/appError");
 exports.find = async toDoID => {
   const toDo = await ToDoStore.findByToDoID(toDoID);
   if (toDo) {
@@ -16,12 +14,6 @@ exports.all = async search => {
 };
 
 exports.create = async params => {
-  // validate the request body first
-  const { error } = validate(params);
-  if (error) {
-    throw new appError(error.details[0].message, 400);
-  }
-
   //Create a toDo from entity first
   const toDoToAdd = ToDoEntity.createFromDetails(params);
   return await ToDoStore.add(toDoToAdd);
