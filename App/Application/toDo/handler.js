@@ -1,6 +1,6 @@
 class ToDoHandler {
   async handle(command) {
-    await command.execute();
+    return await command.execute();
   }
 }
 

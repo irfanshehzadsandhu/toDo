@@ -1,6 +1,6 @@
 class UserHandler {
   async handle(command) {
-    await command.execute();
+    return await command.execute();
   }
 }
 module.exports = UserHandler;
