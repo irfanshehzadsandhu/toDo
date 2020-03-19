@@ -1,8 +1,7 @@
 async function paginate(query, options) {
   query = query || {};
-  options = Object.assign({}, paginate.options, options); //he Object.assign() method copies all enumerable own properties from one or more source objects to a target object. It returns the target object.
-  const limit = options.perPage ? options.perPage : 10;
-  const page = options.currentPage ? options.currentPage : 1;
+  const limit = options.perPage ? parseInt(options.perPage) : 10;
+  const page = options.currentPage ? parseInt(options.currentPage) : 1;
   const skip = (page - 1) * limit;
 
   const results = await this.find(query)

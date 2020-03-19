@@ -24,8 +24,8 @@ exports.find = async (req, res) => {
 
 exports.all = async (req, res) => {
   try {
-    const { page, completed } = req.query;
-    const command = new AllToDoCommand(page, completed);
+    const { page, completed, limit } = req.query;
+    const command = new AllToDoCommand(page, completed, limit);
     res.status(200).json(await commandBus.handle(command));
   } catch (e) {
     handleError(e, res);
