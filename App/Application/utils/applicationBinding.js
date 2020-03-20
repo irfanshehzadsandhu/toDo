@@ -4,9 +4,9 @@ const {
   InMemoryLocator,
   HandleInflector
 } = require("simple-command-bus");
+const ClassNameInflector = require("./classNameInflector");
 const ToDoHandler = require("../toDo/handler");
 const UserHandler = require("../user/handler");
-
 const commandHandlerMiddleware = new CommandHandlerMiddleware(
   new ClassNameExtractor(),
   new InMemoryLocator({
@@ -19,7 +19,7 @@ const commandHandlerMiddleware = new CommandHandlerMiddleware(
     CurrentUserHandler: new UserHandler(),
     UpdatePasswordUserHandler: new UserHandler()
   }),
-  new HandleInflector()
+  new ClassNameInflector()
 );
 
 module.exports = commandHandlerMiddleware;

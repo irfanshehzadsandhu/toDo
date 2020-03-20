@@ -14,7 +14,7 @@ class ToDoStore {
       { currentPage: params.page, perPage: params.limit }
     );
     return {
-      paginatedItems: result.items.map(toDo =>
+      paginatedItems: result.paginatedItems.map(toDo =>
         ToDoEntity.createFromObject(toDo)
       ),
       paginationInfo: result.paginationConfig

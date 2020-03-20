@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { app } = require("../../App/Infrastructure/config");
+const { application } = require("../../App/Infrastructure/config");
 const handleError = require("../utils/handleError");
 
 module.exports = function(req, res, next) {
@@ -11,8 +11,9 @@ module.exports = function(req, res, next) {
 
   try {
     //if can verify the token, set req.user and pass to next middleware
-    const decoded = jwt.verify(token, app.myPrivateKey);
-    req.user = decoded;
+
+    const decoded = jwt.verify(token, application.myPrivateKey);
+    req.userID = decoded.userID;
 
     next();
   } catch (ex) {

@@ -1,5 +1,4 @@
 const { Command } = require("simple-command-bus");
-const userService = require("../../../App/Domain/services/user");
 class CreateUserCommand extends Command {
   constructor(name, email, password) {
     super();
@@ -7,8 +6,13 @@ class CreateUserCommand extends Command {
     this.email = email;
     this.password = password;
   }
-  async execute() {
-    return await userService.create(this);
+  // write getter here.
+  userDetails() {
+    return {
+      name: this.name,
+      email: this.email,
+      password: this.password
+    };
   }
 }
 module.exports = CreateUserCommand;

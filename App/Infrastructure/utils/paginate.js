@@ -20,7 +20,7 @@ async function paginate(query, options) {
   }
 
   return {
-    items: results,
+    paginatedItems: results,
     paginationConfig: paginationConfig
   };
 }

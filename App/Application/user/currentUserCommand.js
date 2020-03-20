@@ -5,8 +5,8 @@ class CurrentUserCommand extends Command {
     super();
     this.userID = userID;
   }
-  async execute() {
-    return await userService.current(this);
+  userDetails() {
+    return this.userID;
   }
 }
 module.exports = CurrentUserCommand;
