@@ -5,8 +5,10 @@ class FindToDoCommand extends Command {
     super();
     this.toDoID = toDoID;
   }
-  async execute() {
-    return await toDoService.find(this);
+  toDoDetails() {
+    return {
+      toDoID: this.toDoID
+    };
   }
 }
 module.exports = FindToDoCommand;

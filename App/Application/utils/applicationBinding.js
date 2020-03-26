@@ -2,7 +2,7 @@ const {
   CommandHandlerMiddleware,
   ClassNameExtractor,
   InMemoryLocator,
-  HandleInflector
+  //HandleInflector //It only handles handle method.
 } = require("simple-command-bus");
 const ClassNameInflector = require("./classNameInflector");
 const ToDoHandler = require("../toDo/handler");

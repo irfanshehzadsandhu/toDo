@@ -5,8 +5,10 @@ class RemoveToDoCommand extends Command {
     super();
     this.toDoID = toDoID;
   }
-  async execute() {
-    return await toDoService.remove(this);
+  toDoDetails() {
+    return {
+      toDoID: this.toDoID
+    };
   }
 }
 module.exports = RemoveToDoCommand;

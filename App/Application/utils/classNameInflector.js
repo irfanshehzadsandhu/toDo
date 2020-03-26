@@ -5,7 +5,7 @@ ClassNameInflector = class ClassNameInflector extends MethodNameInflector {
     this.methodName = methodName || "handle";
   }
   inflect(commandName, handler) {
-    return "handle" + commandName;
+    return this.methodName + commandName;
   }
 };
 module.exports = ClassNameInflector;

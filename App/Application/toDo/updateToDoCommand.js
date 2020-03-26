@@ -7,8 +7,12 @@ class UpdateToDoCommand extends Command {
     this.description = description;
     this.completed = completed;
   }
-  async execute() {
-    return await toDoService.update(this);
+  toDoDetails() {
+    return {
+      toDoID: this.toDoID,
+      description: this.description,
+      completed: this.completed
+    };
   }
 }
 module.exports = UpdateToDoCommand;

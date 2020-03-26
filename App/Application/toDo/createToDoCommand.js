@@ -6,8 +6,11 @@ class CreateToDoCommand extends Command {
     this.description = description;
     this.completed = completed;
   }
-  async execute() {
-    return await toDoService.create(this);
+  toDoDetails() {
+    return {
+      description: this.description,
+      completed: this.completed
+    };
   }
 }
 module.exports = CreateToDoCommand;

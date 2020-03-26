@@ -7,8 +7,12 @@ class AllToDoCommand extends Command {
     this.completed = completed;
     this.limit = limit;
   }
-  async execute() {
-    return await toDoService.all(this);
+  toDoDetails() {
+    return {
+      page: this.page,
+      completed: this.completed,
+      limit: this.limit
+    };
   }
 }
 module.exports = AllToDoCommand;
