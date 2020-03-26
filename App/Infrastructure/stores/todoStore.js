@@ -1,5 +1,7 @@
 const ToDo = require("../models/todo");
 const ToDoEntity = require("../../../App/Domain/entities/todo");
+const PaginationConfig = require("../utils/paginationConfig");
+const PaginatedData = require("../utils/paginatedData");
 
 class ToDoStore {
   static async add(toDo) {
@@ -9,16 +11,17 @@ class ToDoStore {
   }
 
   static async findAll(params) {
-    const result = await ToDo.paginate(
-      {}, //we can pass queries also like {completed: params.completed}
-      { currentPage: params.page, perPage: params.limit }
-    );
-    return {
-      paginatedItems: result.paginatedItems.map(toDo =>
-        ToDoEntity.createFromObject(toDo)
-      ),
-      paginationInfo: result.paginationConfig
-    };
+    const paginationConfig = new PaginationConfig(params.page,params.limit);
+    const query = params.completed ? { completed: params.completed } : {};
+    const totalToDos = await ToDo.count(query);
+    const paginatedData = new PaginatedData(paginationConfig,totalToDos);
+    const paginatedToDos = await ToDo.find(query) 
+    .limit(paginationConfig.limit())
+    .skip(paginationConfig.offset());
+    paginatedToDos.forEach(function(toDo){
+      paginatedData.addItem(ToDoEntity.createFromObject(toDo))
+    });
+    return paginatedData.paginatedItems();
   }
 
   static async findByToDoID(toDoID) {
