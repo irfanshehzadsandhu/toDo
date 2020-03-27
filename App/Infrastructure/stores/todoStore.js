@@ -11,10 +11,9 @@ class ToDoStore {
   }
 
   static async findAll(params) {
-    const paginationConfig = new PaginationConfig(params.page,params.limit);
     const query = params.completed ? { completed: params.completed } : {};
     const totalToDos = await ToDo.count(query);
-    const paginatedData = new PaginatedData(paginationConfig,totalToDos);
+    const paginatedData = new PaginatedData(new PaginationConfig(params.page,params.limit),totalToDos);
     const paginatedToDos = await ToDo.find(query) 
     .limit(paginationConfig.limit())
     .skip(paginationConfig.offset());
