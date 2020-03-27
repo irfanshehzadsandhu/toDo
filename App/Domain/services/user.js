@@ -8,6 +8,18 @@ exports.current = async userID => {
   return await UserStore.findByUserID(userID);
 };
 
+exports.authUser = async params => {
+  //find an existing user
+  const userIsPresent = await UserStore.findByEmail(params.email);
+  if (userIsPresent) {
+    return { token: generateAuthToken(userIsPresent.userID), user: userIsPresent };
+  }
+  const user = UserEntity.createFromDetails(params); //Create a user entity first.
+  await user.setPassword(params.password); //adding await due to bcrypt.
+  const newUser = await UserStore.add(user);
+  return { token: generateAuthToken(user.userID), user: newUser };
+};
+
 exports.create = async params => {
   //find an existing user
   const userIsPresent = await UserStore.findByEmail(params.email);
