@@ -1,6 +1,6 @@
 const transporter = require("./transporter");
 
-class Email {
+class EmailUser {
  constructor(to,subject,text){
   this.mailOptions = {
     from: "noreply@gmail.com",
@@ -21,4 +21,4 @@ class Email {
  }
 
 };
-module.exports = Email;
+module.exports = EmailUser;
