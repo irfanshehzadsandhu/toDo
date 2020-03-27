@@ -4,9 +4,7 @@ const Jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { application } = require("../../Infrastructure/config");
 const appError = require("../../../HTTP/errors/appError");
-const Email = require("../../Infrastructure/mailer/email");
-const { EventEmitter } = require("events");
-const eventEmitter = new EventEmitter();
+const eventEmitter = require("../../Infrastructure/utils/eventEmitter");
 
 exports.current = async userID => {
   return await UserStore.findByUserID(userID);
@@ -21,6 +19,7 @@ exports.authUser = async params => {
   const user = UserEntity.createFromDetails(params); //Create a user entity first.
   await user.setPassword(params.password); //adding await due to bcrypt.
   const newUser = await UserStore.add(user);
+  eventEmitter.emit('userIsRegistered',newUser);
   return { token: generateAuthToken(user.userID), user: newUser };
 };
 
@@ -34,7 +33,7 @@ exports.create = async params => {
   const user = UserEntity.createFromDetails(params); 
   await user.setPassword(params.password); //adding await due to bcrypt.
   const newUser = await UserStore.add(user);
-  eventEmitter.emit('userIsRegistered');
+  eventEmitter.emit('userIsRegistered',newUser);
   return { token: generateAuthToken(user.userID), user: newUser };
 };
 
@@ -66,8 +65,3 @@ exports.createSession = async params => {
 function generateAuthToken(userID) {
   return Jwt.sign({ userID: userID }, application.myPrivateKey);
 }
-
-
-eventEmitter.on("userIsRegistered", () => {
-  new Email("irfan@carbonteq.com","Registration Successfull","You have registered successfully").userRegistrationEmail();
-});
