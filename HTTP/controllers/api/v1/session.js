@@ -2,7 +2,7 @@ const { CommandBus, LoggerMiddleware } = require("simple-command-bus");
 const applicationBinding = require("../../../../App/Application/utils/applicationBinding");
 const CreateSessionUserCommand = require("../../../../App/Application/user/createSessionUserCommand");
 const AuthUserCommand = require("../../../../App/Application/user/authUserCommand");
-const GoogleAuthentication = require("../../../middleware/googleAuthentication");
+const GoogleAuthentication = require("../../../utils/googleAuthentication");
 const handleError = require("../../../utils/handleError");
 
 const commandBus = new CommandBus([
@@ -22,9 +22,7 @@ exports.create = async (req, res) => {
 
 exports.googleAuth = async (req, res) => {
   try {
-    const googleAuthentication = new GoogleAuthentication();
-    const userInfo = await googleAuthentication.getGoogleAccountFromCode(req.query.code);
-    const { name, email, password } = userInfo;
+    const { name, email, password } = req.body;
     const command = new AuthUserCommand(name, email, password);
     res.status(200).json(await commandBus.handle(command));
   } catch(e) {
