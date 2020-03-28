@@ -1,9 +1,11 @@
 const expect = require("chai").expect;
 const faker = require("faker");
-const userService = require("../../services/user");
-const UserStore = require("../../stores/userStore");
+const ValidationError = require('mongoose').Error.ValidationError;
+const AppError = require("../../HTTP/errors/appError");
+const userService = require("../../App/Domain/services/user");
+const UserStore = require("../../App/Infrastructure/stores/userStore");
 const userDetails = require("../helper/user");
-const UserEntity = require("../../entities/user");
+const UserEntity = require("../../App/Domain/entities/user");
 describe("User Service methods", async () => {
   beforeEach(async () => {
     const userObj = UserEntity.createFromDetails(userDetails);
@@ -17,9 +19,11 @@ describe("User Service methods", async () => {
       email: "",
       password: ""
     };
-
-    const error = await userService.create(userRequestBody);
-    expect(error.errorMessage).eq('"name" is not allowed to be empty');
+    try {
+      await userService.create(userRequestBody);
+    } catch(e) {
+      expect(e).to.be.an.instanceOf(ValidationError);
+    }     
   });
 
   it("expects user is already created.", async () => {
@@ -28,8 +32,11 @@ describe("User Service methods", async () => {
       email: userDetails.email,
       password: faker.internet.password()
     };
-    const error = await userService.create(userRequestBody);
-    expect(error.errorMessage).eq("User already registered.");
+    try {
+      await userService.create(userRequestBody);
+    } catch(e) {
+      expect(e).to.be.an.instanceOf(AppError);
+    }
   });
 
   it("creates a user", async () => {

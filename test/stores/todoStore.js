@@ -1,6 +1,6 @@
 const expect = require("chai").expect;
-const ToDoStore = require("../../stores/todoStore");
-const ToDoEntity = require("../../entities/todo");
+const ToDoStore = require("../../App/Infrastructure/stores/todoStore");
+const ToDoEntity = require("../../App/Domain/entities/todo");
 const toDoDetails = require("../helper/todo");
 describe("ToDo Store methods", async () => {
   beforeEach(async () => {
@@ -9,8 +9,8 @@ describe("ToDo Store methods", async () => {
   });
 
   it("should find all toDos from store", async () => {
-    const toDos = await ToDoStore.findAll();
-    expect(toDos.length).eq(1);
+    const toDos = await ToDoStore.findAll({page: 1,limit: 10});
+    expect(toDos.paginationInfo.totalItems).eq(1);
   });
 
   it("should find user with given userID.", async () => {
@@ -52,7 +52,7 @@ describe("ToDo Store methods", async () => {
     const toDo = toDoList[0];
     const toDoToDelete = await ToDoStore.findByToDoID(toDo.toDoID);
     await ToDoStore.remove(toDoToDelete);
-    const toDos = await ToDoStore.findAll();
-    expect(toDos.length).eq(0);
+    const toDos = await ToDoStore.findAll({page: 1,limit: 10});
+    expect(toDos.paginationInfo.totalItems).eq(0);
   });
 });

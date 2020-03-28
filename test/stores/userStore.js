@@ -1,8 +1,8 @@
 const expect = require("chai").expect;
 const faker = require("faker");
-const UserStore = require("../../stores/userStore");
+const UserStore = require("../../App/Infrastructure/stores/userStore");
 const userDetails = require("../helper/user");
-const UserEntity = require("../../entities/user");
+const UserEntity = require("../../App/Domain/entities/user");
 describe("User Store methods", async () => {
   beforeEach(async () => {
     const userObj = UserEntity.createFromDetails(userDetails);

@@ -15,8 +15,8 @@ class ToDoStore {
     const totalToDos = await ToDo.count(query);
     const paginatedData = new PaginatedData(new PaginationConfig(params.page,params.limit),totalToDos);
     const paginatedToDos = await ToDo.find(query) 
-    .limit(paginationConfig.limit())
-    .skip(paginationConfig.offset());
+    .limit(paginatedData.paginationConfig.limit())
+    .skip(paginatedData.paginationConfig.offset());
     paginatedToDos.forEach(function(toDo){
       paginatedData.addItem(ToDoEntity.createFromObject(toDo))
     });

@@ -1,7 +1,8 @@
 const expect = require("chai").expect;
-const ToDoService = require("../../services/todo");
-const ToDoStore = require("../../stores/todoStore");
-const ToDoEntity = require("../../entities/todo");
+const ValidationError = require('mongoose').Error.ValidationError;
+const ToDoService = require("../../App/Domain/services/todo");
+const ToDoStore = require("../../App/Infrastructure/stores/todoStore");
+const ToDoEntity = require("../../App/Domain/entities/todo");
 const toDoDetails = require("../helper/todo");
 
 describe("ToDo Service methods", async () => {
@@ -11,8 +12,11 @@ describe("ToDo Service methods", async () => {
   });
 
   it("expects todo must not be created due to validation.", async () => {
-    const error = await ToDoService.create({});
-    expect(error.status).eq(403);
+    try {
+      await ToDoService.create({});
+    } catch(e) {
+      expect(e).to.be.an.instanceOf(ValidationError)
+    }
   });
 
   it("toDo should be created.", async () => {
@@ -20,7 +24,7 @@ describe("ToDo Service methods", async () => {
       description: "I am testing",
       completed: true
     });
-    expect(createdToDo.toDo).to.be.an.instanceOf(ToDoEntity);
+    expect(createdToDo).to.be.an.instanceOf(ToDoEntity);
   });
 
   it("toDo should be updated.", async () => {
@@ -30,7 +34,7 @@ describe("ToDo Service methods", async () => {
       toDoID: toDo.toDoID,
       description: "Testing"
     });
-    expect(updatedToDo.toDo).to.be.an.instanceOf(ToDoEntity);
+    expect(updatedToDo).to.be.an.instanceOf(ToDoEntity);
   });
 
   it("toDo should be removed.", async () => {

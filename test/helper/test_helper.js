@@ -1,5 +1,5 @@
 require("dotenv").config();
-const db = require("../../models/mongoose");
+const db = require("../../App/Infrastructure/models/mongoose");
 
 db.connect();
 //Called hooks which runs before something.

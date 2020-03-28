@@ -6,9 +6,9 @@ const ToDoSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  description: { type: String },
-  completed: { type: Boolean, default: false },
-  createdAt: { type: Date, default: Date.now }
+  description: { type: String,required: [true, "can't be blank"] },
+  completed: { type: Boolean,required: [true, "can't be blank"], default: false },
+  createdAt: { type: Date,required: [true, "can't be blank"], default: Date.now }
 });
 
 const ToDo = mongoose.model("ToDo", ToDoSchema);
