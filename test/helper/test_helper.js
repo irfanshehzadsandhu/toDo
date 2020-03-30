@@ -1,14 +1,13 @@
 require("dotenv").config();
-const db = require("../../App/Infrastructure/models/mongoose");
+const mongoose = require("mongoose");
+const { db } = require("../../App/Infrastructure/config");
+mongoose.connect(db.host);
 
-db.connect();
-//Called hooks which runs before something.
 beforeEach(done => {
   console.log("Clear database");
   try {
-    db.mongoose.connection.db.dropDatabase(function(err, result) {
-      //this function runs after the drop is completed
-      done(); //go ahead everything is done now.
+    mongoose.connection.db.dropDatabase(function (err, result) {
+      done();
     });
   } catch (e) {
     done();
