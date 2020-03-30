@@ -19,7 +19,7 @@ exports.authUser = async params => {
   const user = UserEntity.createFromDetails(params); //Create a user entity first.
   await user.setPassword(params.password); //adding await due to bcrypt.
   const newUser = await UserStore.add(user);
-  eventEmitter.emit('userIsRegistered',newUser);
+  eventEmitter.emit('userIsRegistered', newUser);
   return { token: generateAuthToken(user.userID), user: newUser };
 };
 
@@ -30,10 +30,10 @@ exports.create = async params => {
     throw new appError("Specified E-Mail is already taken", 400);
   }
   //Create a user from entity first
-  const user = UserEntity.createFromDetails(params); 
+  const user = UserEntity.createFromDetails(params);
   await user.setPassword(params.password); //adding await due to bcrypt.
   const newUser = await UserStore.add(user);
-  eventEmitter.emit('userIsRegistered',newUser);
+  eventEmitter.emit('userIsRegistered', newUser);
   return { token: generateAuthToken(user.userID), user: newUser };
 };
 
