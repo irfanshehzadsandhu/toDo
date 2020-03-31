@@ -43,6 +43,7 @@ exports.updatePassword = async params => {
   await user.setPassword(params.password); //adding await due to bycrypt.
   const passwordUpdated = await UserStore.update(user);
   if (passwordUpdated) {
+    eventEmitter.emit('passwordUpdated', passwordUpdated);
     return { message: "Password updated successfully." };
   } else {
     throw new appError("Something went wrong.", 400);

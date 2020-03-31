@@ -1,5 +1,7 @@
+//Use spies and stubs to properly unit test stores
 const expect = require("chai").expect;
 const faker = require("faker");
+const sinon = require("sinon");
 const UserStore = require("../../App/Infrastructure/stores/userStore");
 const userDetails = require("../helper/user");
 const UserEntity = require("../../App/Domain/entities/user");
@@ -11,8 +13,11 @@ describe("User Store methods", async () => {
   });
 
   it("should find all users from store", async () => {
-    const users = await UserStore.findAll();
-    expect(users.length).eq(1);
+    const mock = sinon.mock(UserStore);
+    mock.expects("findAll").once();
+    await UserStore.findAll();
+    mock.verify();
+    mock.restore();
   });
 
   it("should find user with given userID.", async () => {
