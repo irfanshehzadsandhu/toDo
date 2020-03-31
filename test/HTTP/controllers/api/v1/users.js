@@ -2,7 +2,6 @@ const expect = require("chai").expect;
 const faker = require("faker");
 const sinon = require("sinon");
 const usersController = require("../../../../../HTTP/controllers/api/v1/users");
-const { mailerStub } = require("../../../../helper/stubs");
 
 describe("Users Controller.", () => {
     it("Should send status 200 on user registration successfully.", async () => {
@@ -26,6 +25,5 @@ describe("Users Controller.", () => {
         res.json = sinon.spy();
         await usersController.create(req, res);
         expect(res.json.calledOnce).to.be.true;
-        expect(mailerStub.calledOnce).to.be.true;
     });
 });
