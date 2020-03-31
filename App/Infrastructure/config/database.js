@@ -1,3 +1,4 @@
+require('dotenv').config()
 const env = require("common-env")();
 module.exports = env.getOrElseAll({
   host: {

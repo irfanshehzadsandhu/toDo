@@ -2,7 +2,7 @@ const expect = require("chai").expect;
 const faker = require("faker");
 const sinon = require("sinon");
 const usersController = require("../../../../../HTTP/controllers/api/v1/users");
-const mailerStub = require("../../../../helper/stubs");
+const { mailerStub } = require("../../../../helper/stubs");
 
 describe("Users Controller.", () => {
     it("Should send status 200 on user registration successfully.", async () => {

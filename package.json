@@ -32,7 +32,9 @@
     "chai": "^4.2.0",
     "faker": "^4.1.0",
     "mocha": "^7.1.0",
-    "sinon": "^9.0.1"
+    "mock-mongoose": "^8.0.0",
+    "sinon": "^9.0.1",
+    "supertest": "^4.0.2"
   },
   "mdSeed": {
     "seedersFolder": "./App/Infrastructure/seeders"
