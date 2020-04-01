@@ -18,10 +18,6 @@ describe("Users Controller.", () => {
             console.log("Controller sent following status:", status);
             return this;
         }
-
-        // res.json = function (obj) {
-        //     console.log("Response in json is:", sinon.spy());
-        // }
         res.json = sinon.spy();
         await usersController.create(req, res);
         expect(res.json.calledOnce).to.be.true;

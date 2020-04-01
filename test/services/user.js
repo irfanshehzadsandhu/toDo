@@ -4,7 +4,7 @@ const ValidationError = require('mongoose').Error.ValidationError;
 const AppError = require("../../HTTP/errors/appError");
 const userService = require("../../App/Domain/services/user");
 const UserStore = require("../../App/Infrastructure/stores/userStore");
-const userDetails = require("../helper/user");
+const userDetails = require("../factories/user");
 const UserEntity = require("../../App/Domain/entities/user");
 
 describe("User Service methods", async () => {

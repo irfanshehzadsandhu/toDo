@@ -3,7 +3,7 @@ const ValidationError = require('mongoose').Error.ValidationError;
 const ToDoService = require("../../App/Domain/services/todo");
 const ToDoStore = require("../../App/Infrastructure/stores/todoStore");
 const ToDoEntity = require("../../App/Domain/entities/todo");
-const toDoDetails = require("../helper/todo");
+const toDoDetails = require("../factories/todo");
 
 describe("ToDo Service methods", async () => {
   beforeEach(async () => {
@@ -14,13 +14,14 @@ describe("ToDo Service methods", async () => {
   it("expects todo must not be created due to validation.", async () => {
     try {
       await ToDoService.create({});
-    } catch(e) {
+    } catch (e) {
       expect(e).to.be.an.instanceOf(ValidationError)
     }
   });
 
   it("toDo should be created.", async () => {
     const createdToDo = await ToDoService.create({
+      name: "Dummy Name",
       description: "I am testing",
       completed: true
     });
