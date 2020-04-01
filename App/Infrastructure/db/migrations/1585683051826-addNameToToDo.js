@@ -11,7 +11,7 @@ async function up() {
  * Make any changes that UNDO the up function side effects here (if possible)
  */
 async function down() {
-  const result = toDo.update({}, { '$unset': { name: "" } });
+  const result = toDo.update({}, { '$unset': { name: true } });
   console.log(result);
 }
 

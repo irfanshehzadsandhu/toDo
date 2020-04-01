@@ -1,9 +1,10 @@
 const toDoService = require("../../../App/Domain/services/todo");
 const { Command } = require("simple-command-bus");
 class UpdateToDoCommand extends Command {
-  constructor(toDoID, description, completed) {
+  constructor(toDoID, name, description, completed) {
     super();
     this.toDoID = toDoID;
+    this.name = name;
     this.description = description;
     this.completed = completed;
   }

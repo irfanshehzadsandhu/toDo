@@ -34,8 +34,8 @@ exports.all = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { description, completed } = req.body;
-    const command = new CreateToDoCommand(description, completed);
+    const { name, description, completed } = req.body;
+    const command = new CreateToDoCommand(name, description, completed);
     res.status(200).json(await commandBus.handle(command));
   } catch (e) {
     handleError(e, res);

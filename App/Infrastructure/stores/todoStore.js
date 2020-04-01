@@ -13,11 +13,11 @@ class ToDoStore {
   static async findAll(params) {
     const query = params.completed ? { completed: params.completed } : {};
     const totalToDos = await ToDo.count(query);
-    const paginatedData = new PaginatedData(new PaginationConfig(params.page,params.limit),totalToDos);
-    const paginatedToDos = await ToDo.find(query) 
-    .limit(paginatedData.paginationConfig.limit())
-    .skip(paginatedData.paginationConfig.offset());
-    paginatedToDos.forEach(function(toDo){
+    const paginatedData = new PaginatedData(new PaginationConfig(params.page, params.limit), totalToDos);
+    const paginatedToDos = await ToDo.find(query)
+      .limit(paginatedData.paginationConfig.limit())
+      .skip(paginatedData.paginationConfig.offset());
+    paginatedToDos.forEach(function (toDo) {
       paginatedData.addItem(ToDoEntity.createFromObject(toDo))
     });
     return paginatedData.paginatedItems();
