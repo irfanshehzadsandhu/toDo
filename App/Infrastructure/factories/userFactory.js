@@ -5,10 +5,13 @@ class UserFactory {
     this.dataBaseDriver = db.driver;
   }
 
+  isUsingMongooseDriver() {
+    return this.dataBaseDriver == "mongoose";
+  }
+
   static async add(userObj) {
-    new UserFactory();
-    if (this.dataBaseDriver == "mongoose") {
-      //create() for saving many documents at a time. Create is basically using save() for each document
+    const factory = new UserFactory();
+    if (factory.isUsingMongooseDriver()) {
       return await MongooseUser.create(userObj);
     } else {
       //load sequelize user model and run query

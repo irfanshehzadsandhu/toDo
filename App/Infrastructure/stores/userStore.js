@@ -3,7 +3,6 @@ const UserFactory = require("../factories/userFactory");
 
 class UserStore {
   static async add(user) {
-    //create() for saving many documents at a time. Create is basically using save() for each document
     const newUser = await UserFactory.add(user)
     return UserEntity.createFromObject(newUser);
   }
