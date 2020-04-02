@@ -25,8 +25,13 @@ class UserFactory {
   }
 
   static async findByUserID(userID) {
-    new UserFactory();
-    return await MongooseUser.findOne({ userID: userID });
+    const factory = new UserFactory();
+    if (factory.isUsingMongooseDriver()) {
+      return await MongooseModel.findOne({ userID: userID });
+    }
+    if (factory.isUsingSequelizeDriver) {
+      return await SequelizeModel.findOne({ where: { userID: userID } });
+    }
   }
 
   static async findByEmail(email) {
