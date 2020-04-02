@@ -1,5 +1,6 @@
 const { db } = require("../config");
-const MongooseUser = require("../models/mongoose/user");
+const MongooseModel = require("../models/mongoose/user");
+const SequelizeModel = require("../models/sequelize/user");
 class UserFactory {
   constructor() {
     this.dataBaseDriver = db.driver;
@@ -9,12 +10,17 @@ class UserFactory {
     return this.dataBaseDriver == "mongoose";
   }
 
+  isUsingSequelizeDriver() {
+    return this.dataBaseDriver == "sequelize";
+  }
+
   static async add(userObj) {
     const factory = new UserFactory();
     if (factory.isUsingMongooseDriver()) {
-      return await MongooseUser.create(userObj);
-    } else {
-      //load sequelize user model and run query
+      return await MongooseModel.create(userObj);
+    }
+    if (factory.isUsingSequelizeDriver) {
+      return await SequelizeModel.create(userObj);
     }
   }
 
@@ -24,8 +30,13 @@ class UserFactory {
   }
 
   static async findByEmail(email) {
-    new UserFactory();
-    return await MongooseUser.findOne({ email: email });
+    const factory = new UserFactory();
+    if (factory.isUsingMongooseDriver()) {
+      return await MongooseModel.findOne({ email: email });
+    }
+    if (factory.isUsingSequelizeDriver) {
+      return await SequelizeModel.findOne({ where: { email: email } });
+    }
   }
 
   static async update(user) {

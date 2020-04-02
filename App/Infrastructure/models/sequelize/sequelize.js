@@ -1,6 +1,7 @@
+const { db } = require("../../config");
 const Sequelize = require('sequelize');
 module.exports = () => {
-  const sequelize = new Sequelize('postgres://postgres:123@localhost:5432/todo');
+  const sequelize = new Sequelize(db.host);
   sequelize
     .authenticate()
     .then(() => {
