@@ -1,4 +1,4 @@
-const ToDo = require("../models/todo");
+const ToDoFactory = require("../factories/toDoFactory");
 const ToDoEntity = require("../../../App/Domain/entities/todo");
 const PaginationConfig = require("../utils/paginationConfig");
 const PaginatedData = require("../utils/paginatedData");

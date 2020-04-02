@@ -2,25 +2,25 @@
 const mongoose = require("mongoose");
 
 //require database URL from properties file
-const { db } = require("../config");
+const { db } = require("../../config");
 //export this function and imported by server.js
-module.exports.connect = function() {
+module.exports = function () {
   mongoose.connect(db.host);
 
-  mongoose.connection.on("connected", function() {
+  mongoose.connection.on("connected", function () {
     console.log("Mongoose default connection is open to " + db.host);
   });
 
-  mongoose.connection.on("error", function(err) {
+  mongoose.connection.on("error", function (err) {
     console.log("Mongoose default connection has occurred" + err + " error");
   });
 
-  mongoose.connection.on("disconnected", function() {
+  mongoose.connection.on("disconnected", function () {
     console.log("Mongoose default connection is disconnected");
   });
 
-  process.on("SIGINT", function() {
-    mongoose.connection.close(function() {
+  process.on("SIGINT", function () {
+    mongoose.connection.close(function () {
       console.log(
         "Mongoose default connection is disconnected due to application termination"
       );
