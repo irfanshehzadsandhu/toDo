@@ -1,4 +1,4 @@
-const ToDoFactory = require("../factories/toDoFactory");
+const ToDo = require("../../models/mongoose/todo");
 const ToDoEntity = require("../../../App/Domain/entities/todo");
 const PaginationConfig = require("../utils/paginationConfig");
 const PaginatedData = require("../utils/paginatedData");
@@ -53,24 +53,5 @@ class ToDoStore {
     return result;
   }
 
-  static async isPresent(toDo) {
-    return await ToDo.exists(toDo);
-  }
-  static async first(limit = 1) {
-    const toDos = await ToDo.find()
-      .sort({ createdAt: -1 })
-      .limit(limit);
-    return toDos.map(toDo => ToDoEntity.createFromObject(toDo));
-  }
-  static async last(limit = 1) {
-    const toDos = await ToDo.find()
-      .sort({ createdAt: 1 })
-      .limit(limit);
-    return toDos.map(toDo => ToDoEntity.createFromObject(toDo));
-  }
-
-  static async count() {
-    return ToDo.count({});
-  }
 }
 module.exports = ToDoStore;
