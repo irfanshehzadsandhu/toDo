@@ -5,14 +5,13 @@ const { application } = require("../../Infrastructure/config");
 const appError = require("../../../HTTP/errors/appError");
 const eventEmitter = require("../../Infrastructure/utils/eventEmitter");
 const UserFactory = require("../../Infrastructure/factories/userFactory");
+const store = UserFactory.loadStore();
 
 exports.current = async userID => {
-  const store = UserFactory.loadStore();
   return await store.findByUserID(userID);
 };
 
 exports.authUser = async params => {
-  const store = UserFactory.loadStore();
   const userIsPresent = await store.findByEmail(params.email);
   if (userIsPresent) {
     return { token: generateAuthToken(userIsPresent.userID), user: userIsPresent };
@@ -25,7 +24,6 @@ exports.authUser = async params => {
 };
 
 exports.create = async params => {
-  const store = UserFactory.loadStore();
   const userIsPresent = await store.findByEmail(params.email);
   if (userIsPresent) {
     throw new appError("Specified E-Mail is already taken", 400);
@@ -38,7 +36,6 @@ exports.create = async params => {
 };
 
 exports.updatePassword = async params => {
-  const store = UserFactory.loadStore();
   const userFromDb = await store.findByUserID(params.userID);
   const user = UserEntity.createFromObject(userFromDb);
   await user.setPassword(params.password); //adding await due to bycrypt.
@@ -52,7 +49,6 @@ exports.updatePassword = async params => {
 };
 
 exports.createSession = async params => {
-  const store = UserFactory.loadStore();
   const userIsPresent = await store.findByEmail(params.email);
   if (!userIsPresent) {
     throw new appError("Invalid Email.", 400);
