@@ -10,24 +10,12 @@ class EmailUser {
     }
   }
 
-  userRegistrationEmail() {
-    transporter.sendMail(this.mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Email sent: " + info.response);
-      }
-    });
+  async userRegistrationEmail() {
+    await transporter.sendMail(this.mailOptions);
   }
 
-  userPasswordUpdated() {
-    transporter.sendMail(this.mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Email sent: " + info.response);
-      }
-    });
+  async userPasswordUpdated() {
+    await transporter.sendMail(this.mailOptions);
   }
 
 };
