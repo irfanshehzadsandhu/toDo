@@ -1,13 +1,13 @@
-const EmailUser = require("../mailer/userMailer");
+const EmailUser = require("../../Infrastructure/mailer/userMailer");
 const { EventEmitter } = require("events");
-const eventEmitter = new EventEmitter();
+const userEventsListner = new EventEmitter();
 
-eventEmitter.on("userIsRegistered", (user) => {
+userEventsListner.on("userIsRegistered", (user) => {
   new EmailUser(user.email, "Registration Successfull", "You have registered successfully").userRegistrationEmail();
 });
 
-eventEmitter.on("passwordUpdated", (user) => {
+userEventsListner.on("passwordUpdated", (user) => {
   new EmailUser(user.email, "Password Updated Successfull", "Password is updated successfully").userPasswordUpdated();
 });
 
-module.exports = eventEmitter;
+module.exports = userEventsListner;

@@ -3,7 +3,7 @@ const Jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { application } = require("../../Infrastructure/config");
 const appError = require("../../../HTTP/errors/appError");
-const eventEmitter = require("../../Infrastructure/utils/eventEmitter");
+const userEventsListner = require("../../Application/events/userEventsListner");
 const UserFactory = require("../../Infrastructure/factories/userFactory");
 const store = UserFactory.getUserStore();
 
@@ -19,7 +19,7 @@ exports.authUser = async params => {
   const user = UserEntity.createFromDetails(params); //Create a user entity first.
   await user.setPassword(params.password); //adding await due to bcrypt.
   const newUser = await store.add(user);
-  eventEmitter.emit('userIsRegistered', newUser);
+  userEventsListner.emit('userIsRegistered', newUser);
   return { token: generateAuthToken(user.userID), user: newUser };
 };
 
@@ -31,7 +31,7 @@ exports.create = async params => {
   const user = UserEntity.createFromDetails(params);
   await user.setPassword(params.password); //adding await due to bcrypt.
   const newUser = await store.add(user);
-  eventEmitter.emit('userIsRegistered', newUser);
+  userEventsListner.emit('userIsRegistered', newUser);
   return { token: generateAuthToken(user.userID), user: newUser };
 };
 
@@ -41,7 +41,7 @@ exports.updatePassword = async params => {
   await user.setPassword(params.password); //adding await due to bycrypt.
   const passwordUpdated = await store.update(user);
   if (passwordUpdated) {
-    eventEmitter.emit('passwordUpdated', passwordUpdated);
+    userEventsListner.emit('passwordUpdated', passwordUpdated);
     return { message: "Password updated successfully." };
   } else {
     throw new appError("Something went wrong.", 400);
