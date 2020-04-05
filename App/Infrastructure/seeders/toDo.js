@@ -1,13 +1,14 @@
 const { Seeder } = require("mongoose-data-seed");
 const faker = require("faker");
 const uuidv1 = require("uuid/v1");
-const ToDo = require("../models/todo");
+const ToDo = require("../../Infrastructure/models/mongoose/todo");
 
 const data = [];
 
-for(var i=0;i<500;i++){
+for (var i = 0; i < 500; i++) {
   data.push({
     toDoID: uuidv1(),
+    name: faker.name.findName(),
     description: faker.lorem.paragraph(),
     completed: faker.random.boolean()
   });

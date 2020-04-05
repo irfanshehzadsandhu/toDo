@@ -5,7 +5,7 @@ const { application } = require("../../Infrastructure/config");
 const appError = require("../../../HTTP/errors/appError");
 const eventEmitter = require("../../Infrastructure/utils/eventEmitter");
 const UserFactory = require("../../Infrastructure/factories/userFactory");
-const store = UserFactory.getUserFactory();
+const store = UserFactory.getUserStore();
 
 exports.current = async userID => {
   return await store.findByUserID(userID);

@@ -1,31 +1,17 @@
-const { db } = require("../config");
+const appError = require("../../errors/appError");
 class AbstractFactory {
   constructor() {
     if (this == AbstractFactory) {
-      throw new Error("You can not instantiate an abstract factory.");
+      throw new appError("You can not instantiate an abstract factory.", 400);
     }
   }
 
   static getUserFactory() {
-    if (db.driver == "mongoose") {
-      const MongooseUserStore = require("../stores/mongoose/userStore");
-      return new MongooseUserStore();
-    }
-    if (db.driver == "sequelize") {
-      const SequelizeUserStore = require("../stores/sequelize/userStore");
-      return new SequelizeUserStore();
-    }
+    throw new appError("You can not call an abstract factory.", 400);
   }
 
   static getToDoFactory() {
-    if (db.driver == "mongoose") {
-      const MongooseToDoStore = require("../stores/mongoose/todoStore");
-      return new MongooseToDoStore();
-    }
-    if (db.driver == "sequelize") {
-      const SequelizeToDoStore = require("../stores/sequelize/todoStore");
-      return new SequelizeToDoStore();
-    }
+    throw new Error("You can not call an abstract factory.", 400);
   }
 }
 module.exports = AbstractFactory;
