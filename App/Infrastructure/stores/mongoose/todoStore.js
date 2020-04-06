@@ -4,6 +4,11 @@ const PaginationConfig = require("../../utils/paginationConfig");
 const PaginatedData = require("../../utils/paginatedData");
 
 class MongooseToDoStore {
+  async findByToDoID(toDoID) {
+    const todo = await ToDo.findOne({ toDoID: toDoID });
+    return ToDoEntity.createFromObject(todo);
+  }
+
   async add(toDo) {
     //create() for saving many documents at a time. Create is basically using save() for each document
     const newToDo = await ToDo.create(toDo);
@@ -44,6 +49,14 @@ class MongooseToDoStore {
     //deleteOne will delete at most document matching the query.
     const result = await ToDo.findOneAndRemove(toDo);
     return result;
+  }
+  async first(limit = 1) {
+    const toDos = await ToDo.find({}).limit(limit);
+    return toDos.map(todo => ToDoEntity.createFromObject(todo));
+  }
+
+  async count() {
+    return await ToDo.count();
   }
 
 }

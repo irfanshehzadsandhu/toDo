@@ -28,6 +28,13 @@ class MongooseUserStore {
     return await User.exists({ userID: userID });
   }
 
+  async first() {
+    const users = await User.find({}).limit(1);
+    return users.map(user => UserEntity.createFromObject(user));
+  }
 
+  async count() {
+    return await User.count();
+  }
 }
 module.exports = MongooseUserStore;

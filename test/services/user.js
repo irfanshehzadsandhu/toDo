@@ -3,15 +3,16 @@ const faker = require("faker");
 const ValidationError = require('mongoose').Error.ValidationError;
 const AppError = require("../../HTTP/errors/appError");
 const userService = require("../../App/Domain/services/user");
-const UserStore = require("../../App/Infrastructure/stores/userStore");
 const userDetails = require("../factories/user");
 const UserEntity = require("../../App/Domain/entities/user");
+const UserFactory = require("../../App/Infrastructure/factories/userFactory");
+const store = UserFactory.getUserStore();
 
 describe("User Service methods", async () => {
   beforeEach(async () => {
     const userObj = UserEntity.createFromDetails(userDetails);
     await userObj.setPassword(faker.internet.password());
-    await UserStore.add(userObj);
+    await store.add(userObj);
   });
 
   it("expects user must not be created due to validation.", async () => {
@@ -51,7 +52,7 @@ describe("User Service methods", async () => {
   });
 
   it("should update user password", async () => {
-    const usersList = await UserStore.first();
+    const usersList = await store.first();
     const user = usersList[0];
     const userResponse = await userService.updatePassword({
       userID: user.userID,
