@@ -7,8 +7,9 @@ const UserFactory = require("../../Infrastructure/factories/userFactory");
 const store = UserFactory.getUserStore();
 
 class JwtAuthService extends AuthService {
+  constructor() { super() }
 
-  static async validateUserCredentials(params) {
+  async validateUserCredentials(params) {
     const userIsPresent = await store.findByEmail(params.email);
     if (!userIsPresent) {
       throw new appError("Invalid Email.", 400);
@@ -20,7 +21,7 @@ class JwtAuthService extends AuthService {
     return { token: this.generateJwtToken(userIsPresent.userID) };
   }
 
-  static generateJwtToken(userID) {
+  generateJwtToken(userID) {
     return Jwt.sign({ userID: userID }, application.myPrivateKey);
   }
 
