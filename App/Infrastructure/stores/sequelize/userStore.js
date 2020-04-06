@@ -15,10 +15,7 @@ class SequelizeUserStore {
   }
 
   async findByEmail(email) {
-    const user = await User.findOne({ where: { email: email } });
-    if (user) {
-      return UserEntity.createFromObject(user);
-    }
+    return await User.findOne({ where: { email: email } });
   }
 
 }

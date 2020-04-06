@@ -1,7 +1,4 @@
 const UserEntity = require("../../Domain/entities/user");
-const Jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const { application } = require("../../Infrastructure/config");
 const appError = require("../../../HTTP/errors/appError");
 const userEventsListner = require("../../Application/events/userEventsListner");
 const UserFactory = require("../../Infrastructure/factories/userFactory");
@@ -32,7 +29,7 @@ exports.create = async params => {
   await user.setPassword(params.password); //adding await due to bcrypt.
   const newUser = await store.add(user);
   userEventsListner.emit('userIsRegistered', newUser);
-  return { token: generateAuthToken(user.userID), user: newUser };
+  return { user: newUser };
 };
 
 exports.updatePassword = async params => {
@@ -47,20 +44,3 @@ exports.updatePassword = async params => {
     throw new appError("Something went wrong.", 400);
   }
 };
-
-exports.createSession = async params => {
-  const userIsPresent = await store.findByEmail(params.email);
-  if (!userIsPresent) {
-    throw new appError("Invalid Email.", 400);
-  }
-  //Match password
-  if (!bcrypt.compare(params.password, userIsPresent.password)) {
-    throw new appError("Invalid Password.", 400);
-  }
-
-  return { token: generateAuthToken(userIsPresent.userID) };
-};
-
-function generateAuthToken(userID) {
-  return Jwt.sign({ userID: userID }, application.myPrivateKey);
-}

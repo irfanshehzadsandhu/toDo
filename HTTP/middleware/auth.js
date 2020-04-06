@@ -1,22 +1,22 @@
 const jwt = require("jsonwebtoken");
-const { application } = require("../../App/Infrastructure/config");
+const JwtAuthService = require("../../App/Domain/services/jwtAuthService");
 const handleError = require("../utils/handleError");
 
-module.exports = function(req, res, next) {
-  //get the token from the header if present
-  const token = req.headers["x-access-token"] || req.headers["authorization"];
-  if (!token) {
-    handleError({ message: "Access denied. No token provided." }, res);
-  }
-
+module.exports.userIsAuthorized = async function (req, res, next) {
   try {
-    //if can verify the token, set req.user and pass to next middleware
-
-    const decoded = jwt.verify(token, application.myPrivateKey);
-    req.userID = decoded.userID;
-
+    await jwtAuthService.userHasAuthorization(req);
     next();
   } catch (ex) {
-    handleError({ message: "Access denied. Invalid token." }, res);
+    handleError({ message: ex }, res);
+  }
+};
+
+module.exports.validate = async function (req, res, next) {
+  try {
+    const { email, password } = req.body;
+    res.status(200).json(await JwtAuthService.validateUserCredentials({ email: email, password: password }));
+    next();
+  } catch (e) {
+    handleError(e, res);
   }
 };

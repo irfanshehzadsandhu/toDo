@@ -15,16 +15,17 @@ class MongooseUserStore {
   }
 
   async findByEmail(email) {
-    const user = await User.findOne({ email: email });
-    if (user) {
-      return UserEntity.createFromObject(user);
-    }
+    return await User.findOne({ email: email });
   }
 
   async update(user) {
     return await User.findOneAndUpdate({ userID: user.userID }, user, {
       new: true // this will return the updated document
     });
+  }
+
+  async userIsPresent(userID) {
+    return await User.exists({ userID: userID });
   }
 
 

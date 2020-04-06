@@ -18,7 +18,6 @@ const commandHandlerMiddleware = new CommandHandlerMiddleware(
     CreateUserHandler: new UserHandler(),
     CurrentUserHandler: new UserHandler(),
     UpdatePasswordUserHandler: new UserHandler(),
-    CreateSessionUserHandler: new UserHandler(),
     AuthUserHandler: new UserHandler()
   }),
   new ClassNameInflector()

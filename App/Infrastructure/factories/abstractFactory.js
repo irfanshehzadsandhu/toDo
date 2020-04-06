@@ -1,4 +1,4 @@
-const appError = require("../../errors/appError");
+const appError = require("../../../HTTP/errors/appError");
 class AbstractFactory {
   constructor() {
     if (this == AbstractFactory) {
@@ -6,11 +6,11 @@ class AbstractFactory {
     }
   }
 
-  static getUserFactory() {
+  static getUserStore() {
     throw new appError("You can not call an abstract factory.", 400);
   }
 
-  static getToDoFactory() {
+  static getToDoStore() {
     throw new Error("You can not call an abstract factory.", 400);
   }
 }
