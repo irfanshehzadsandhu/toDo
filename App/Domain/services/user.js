@@ -1,3 +1,4 @@
+const JwtAuthService = require("./jwtAuthService");
 const UserEntity = require("../../Domain/entities/user");
 const appError = require("../../../HTTP/errors/appError");
 const userEventsListner = require("../../Application/events/userEventsListner");
@@ -9,15 +10,16 @@ exports.current = async userID => {
 };
 
 exports.authUser = async params => {
+  const jwtAuthService = new JwtAuthService();
   const userIsPresent = await store.findByEmail(params.email);
   if (userIsPresent) {
-    return { token: generateAuthToken(userIsPresent.userID), user: userIsPresent };
+    return { token: jwtAuthService.generateJwtToken(userIsPresent.userID) };
   }
   const user = UserEntity.createFromDetails(params); //Create a user entity first.
   await user.setPassword(params.password); //adding await due to bcrypt.
   const newUser = await store.add(user);
   userEventsListner.emit('userIsRegistered', newUser);
-  return { token: generateAuthToken(user.userID), user: newUser };
+  return { token: jwtAuthService.generateJwtToken(user.userID) };
 };
 
 exports.create = async params => {

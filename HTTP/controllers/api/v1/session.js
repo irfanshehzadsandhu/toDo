@@ -1,7 +1,7 @@
+const GoogleAuthService = require("../../../../App/Domain/services/googleAuthService");
 const { CommandBus, LoggerMiddleware } = require("simple-command-bus");
 const applicationBinding = require("../../../../App/Application/utils/applicationBinding");
 const AuthUserCommand = require("../../../../App/Application/user/authUserCommand");
-const GoogleAuthentication = require("../../../utils/googleAuthentication");
 const handleError = require("../../../utils/handleError");
 
 const commandBus = new CommandBus([
@@ -25,6 +25,6 @@ exports.googleAuth = async (req, res) => {
 
 // I am generating url for google Authentication.
 exports.googleUrl = (req, res) => {
-  const googleAuthentication = new GoogleAuthentication();
-  res.send(googleAuthentication.getConnectionUrl());
+  const googleAuthService = new GoogleAuthService();
+  res.send(googleAuthService.getConnectionUrl());
 };
