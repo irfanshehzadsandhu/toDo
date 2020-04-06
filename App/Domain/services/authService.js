@@ -1,12 +1,11 @@
+const Jwt = require("jsonwebtoken");
 const appError = require("../../../HTTP/errors/appError");
 const { application } = require("../../Infrastructure/config");
 const UserFactory = require("../../Infrastructure/factories/userFactory");
 const store = UserFactory.getUserStore();
 
 class AuthService {
-  constructor() {
-
-  }
+  constructor() { }
 
   userHasAuthorization(req) {
     const token = req.headers["x-access-token"] || req.headers["authorization"];
@@ -15,10 +14,10 @@ class AuthService {
     }
 
     try {
-      const decoded = jwt.verify(token, application.myPrivateKey);
-      store.userExists(decoded.userID);
+      const decoded = Jwt.verify(token, application.myPrivateKey);
+      return store.userIsPresent(decoded.userID);
     } catch (ex) {
-      throw new appError("Access denied. Invalid token.", 400);
+      throw new appError(ex, 400);
     }
   }
 

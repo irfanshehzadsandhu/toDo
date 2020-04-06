@@ -5,10 +5,13 @@ const jwtAuthService = new JwtAuthService();
 
 module.exports.userIsAuthorized = async function (req, res, next) {
   try {
-    await jwtAuthService.userHasAuthorization(req);
+    const isAuthorized = await jwtAuthService.userHasAuthorization(req);
+    if (!isAuthorized) {
+      handleError("You need to sign in or you are not authorized for this action", res);
+    }
     next();
   } catch (ex) {
-    handleError({ message: ex }, res);
+    handleError(ex, res);
   }
 };
 
