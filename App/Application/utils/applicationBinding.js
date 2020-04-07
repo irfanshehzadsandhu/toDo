@@ -16,9 +16,7 @@ const commandHandlerMiddleware = new CommandHandlerMiddleware(
     UpdateToDoHandler: new ToDoHandler(),
     RemoveToDoHandler: new ToDoHandler(),
     CreateUserHandler: new UserHandler(),
-    CurrentUserHandler: new UserHandler(),
-    UpdatePasswordUserHandler: new UserHandler(),
-    AuthUserHandler: new UserHandler()
+    UpdatePasswordUserHandler: new UserHandler()
   }),
   new ClassNameInflector()
 );
