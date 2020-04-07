@@ -1,4 +1,4 @@
-const GoogleAuthService = require("../../../../App/Domain/services/googleAuthService");
+const GoogleAuthService = require("../../../../App/Infrastructure/services/googleAuthService");
 const { CommandBus, LoggerMiddleware } = require("simple-command-bus");
 const applicationBinding = require("../../../../App/Application/utils/applicationBinding");
 const AuthUserCommand = require("../../../../App/Application/user/authUserCommand");

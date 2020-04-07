@@ -5,7 +5,7 @@ const usersController = require("../../../controllers/api/v1/users");
 const todosController = require("../../../controllers/api/v1/todos");
 const sessionController = require("../../../controllers/api/v1/session");
 const passwordController = require("../../../controllers/api/v1/password");
-const apiUrl = "/api/v1"
+const apiUrl = "/api/v1";
 
 router.get(apiUrl + "/users" + "/current", auth.validate, usersController.current);
 router.post(apiUrl + "/users" + "/", usersController.create);

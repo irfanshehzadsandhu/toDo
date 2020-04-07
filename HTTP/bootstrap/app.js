@@ -1,7 +1,5 @@
 require("dotenv").config();
-// app.js
 const express = require("express");
-// initialize our express app
 const app = express();
 const bodyParser = require("body-parser");
 const dataBaseConnection = require("../../App/Infrastructure/models/dataBaseConnection");

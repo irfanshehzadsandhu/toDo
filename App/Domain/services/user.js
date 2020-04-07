@@ -1,4 +1,4 @@
-const JwtAuthService = require("./jwtAuthService");
+const JwtAuthService = require("../../Infrastructure/services/jwtAuthService");
 const UserEntity = require("../../Domain/entities/user");
 const appError = require("../../../HTTP/errors/appError");
 const userEventsListner = require("../../Application/events/userEventsListner");

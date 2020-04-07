@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
-const JwtAuthService = require("../../App/Domain/services/jwtAuthService");
-const GoogleAuthService = require("../../App/Domain/services/googleAuthService");
+const JwtAuthService = require("../../App/Infrastructure/services/jwtAuthService");
+const GoogleAuthService = require("../../App/Infrastructure/services/googleAuthService");
 const handleError = require("../utils/handleError");
 const jwtAuthService = new JwtAuthService();
 const googleAuthService = new GoogleAuthService();
