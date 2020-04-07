@@ -1,6 +1,7 @@
 const ToDoEntity = require("../../Domain/entities/todo");
 const ToDoFactory = require("../../Infrastructure/factories/todoFactory");
-const store = ToDoFactory.getToDoStore();
+const store = ToDoFactory.buildToDoStore();
+
 exports.find = async toDoID => {
   return await store.findByToDoID(toDoID);
 };

@@ -1,17 +1,12 @@
-const { db } = require("../config");
-const AbstractFactory = require("./abstractFactory");
-class UserFactory extends AbstractFactory {
-  constructor() {
-    super();
-  }
-  static getUserStore() {
-    if (db.driver == "mongoose") {
-      const MongooseUserStore = require("../stores/mongoose/userStore");
-      return new MongooseUserStore();
+const Factory = require("./factory");
+const UserStore = require("../stores/userStore");
+class UserFactory extends Factory {
+  static buildUserStore() {
+    if (this.isMongooseDriver) {
+      UserStore.buildMongooseUserStore();
     }
-    if (db.driver == "sequelize") {
-      const SequelizeUserStore = require("../stores/sequelize/userStore");
-      return new SequelizeUserStore();
+    else if (this.isSequelizeDriver) {
+      UserStore.buildSequelizeUserStore();
     }
   }
 };

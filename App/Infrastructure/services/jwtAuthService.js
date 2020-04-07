@@ -4,7 +4,7 @@ const { application } = require("../../Infrastructure/config");
 const appError = require("../../../HTTP/errors/appError");
 const AuthService = require("./authService");
 const UserFactory = require("../../Infrastructure/factories/userFactory");
-const store = UserFactory.getUserStore();
+const store = UserFactory.buildUserStore();
 
 class JwtAuthService extends AuthService {
   constructor() { super() }

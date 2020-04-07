@@ -3,7 +3,7 @@ const UserEntity = require("../../Domain/entities/user");
 const appError = require("../../../HTTP/errors/appError");
 const userEventsListner = require("../../Application/events/userEventsListner");
 const UserFactory = require("../../Infrastructure/factories/userFactory");
-const store = UserFactory.getUserStore();
+const store = UserFactory.buildUserStore();
 
 exports.current = async userID => {
   return await store.findByUserID(userID);

@@ -2,7 +2,7 @@ const Jwt = require("jsonwebtoken");
 const appError = require("../../../HTTP/errors/appError");
 const { application } = require("../../Infrastructure/config");
 const UserFactory = require("../../Infrastructure/factories/userFactory");
-const store = UserFactory.getUserStore();
+const store = UserFactory.buildUserStore();
 
 class AuthService {
   constructor() { }

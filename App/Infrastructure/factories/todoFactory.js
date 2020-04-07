@@ -1,18 +1,14 @@
-const { db } = require("../config");
-const AbstractFactory = require("./abstractFactory");
-class ToDoFactory extends AbstractFactory {
-  constructor() {
-    super();
-  }
-  static getToDoStore() {
-    if (db.driver == "mongoose") {
-      const MongooseToDoStore = require("../stores/mongoose/todoStore");
-      return new MongooseToDoStore();
+const Factory = require("./factory");
+const ToDoStore = require("../stores/toDoStore");
+class ToDoFactory extends Factory {
+  static buildToDoStore() {
+    if (this.isMongooseDriver) {
+      ToDoStore.buildMongooseToDoStore();
     }
-    if (db.driver == "sequelize") {
-      const SequelizeToDoStore = require("../stores/sequelize/todoStore");
-      return new SequelizeToDoStore();
+    else if (this.isSequelizeDriver) {
+      ToDoStore.buildSequelizeToDoStore();
     }
   }
+
 };
 module.exports = ToDoFactory;
