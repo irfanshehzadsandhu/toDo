@@ -3,10 +3,10 @@ const ToDoStore = require("../stores/toDoStore");
 class ToDoFactory extends Factory {
   static buildToDoStore() {
     if (this.isMongooseDriver) {
-      ToDoStore.buildMongooseToDoStore();
+      return ToDoStore.buildMongooseToDoStore();
     }
     else if (this.isSequelizeDriver) {
-      ToDoStore.buildSequelizeToDoStore();
+      return ToDoStore.buildSequelizeToDoStore();
     }
   }
 

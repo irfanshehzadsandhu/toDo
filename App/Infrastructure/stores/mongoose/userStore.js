@@ -2,6 +2,9 @@ const User = require("../../models/mongoose/user");
 const UserEntity = require("../../../Domain/entities/user");
 
 class MongooseUserStore {
+  static buildStore() {
+    return new MongooseUserStore();
+  }
   async add(user) {
     const newUser = await User.create(user)
     return UserEntity.createFromObject(newUser);

@@ -3,10 +3,10 @@ const UserStore = require("../stores/userStore");
 class UserFactory extends Factory {
   static buildUserStore() {
     if (this.isMongooseDriver) {
-      UserStore.buildMongooseUserStore();
+      return UserStore.buildMongooseUserStore();
     }
     else if (this.isSequelizeDriver) {
-      UserStore.buildSequelizeUserStore();
+      return UserStore.buildSequelizeUserStore();
     }
   }
 };
