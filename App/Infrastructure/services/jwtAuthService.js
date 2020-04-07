@@ -1,4 +1,3 @@
-const Jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { application } = require("../../Infrastructure/config");
 const appError = require("../../../HTTP/errors/appError");
@@ -19,10 +18,6 @@ class JwtAuthService extends AuthService {
       throw new appError("Invalid Password.", 400);
     }
     return { token: this.generateJwtToken(userIsPresent.userID) };
-  }
-
-  generateJwtToken(userID) {
-    return Jwt.sign({ userID: userID }, application.myPrivateKey);
   }
 
 }

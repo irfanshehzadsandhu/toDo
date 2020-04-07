@@ -2,6 +2,7 @@ const { google } = require("googleapis");
 const gaxios = require('gaxios');
 const AuthService = require("./authService");
 const { googleCredentials } = require("../../Infrastructure/config");
+const userService = require("../../Domain/services/user");
 
 class GoogleAuthService extends AuthService {
   constructor() {
@@ -38,7 +39,7 @@ class GoogleAuthService extends AuthService {
       }
     }
     const userinfo = await gaxios.request({ url: this.url });
-    return { name: userinfo.data.name, email: userinfo.data.email, password: userinfo.data.sub }
+    return await userService.authUser({ name: userinfo.data.name, email: userinfo.data.email, password: userinfo.data.sub });
   }
 
 }

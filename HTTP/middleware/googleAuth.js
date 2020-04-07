@@ -4,8 +4,17 @@ const googleAuthService = new GoogleAuthService();
 
 module.exports = async function (req, res) {
   try {
-    await googleAuthService.getGoogleAccountFromCode(req.query.code);
-    //send res from her
+    const user = await googleAuthService.getGoogleAccountFromCode(req.query.code);
+    res.status(200).json(user);
+  } catch (e) {
+    handleError(e, res);
+  }
+};
+
+module.exports.googleAuthUrl = async function (req, res) {
+  try {
+    const googleAuthService = new GoogleAuthService();
+    res.send(googleAuthService.getConnectionUrl());
   } catch (e) {
     handleError(e, res);
   }

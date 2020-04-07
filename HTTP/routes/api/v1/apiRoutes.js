@@ -9,6 +9,7 @@ const googleAuth = require("../../../middleware/googleAuth");
 
 router.post("/login", authenticate);
 router.post("/users", usersController.create);
+router.get("/session/googleAuth", googleAuth);
 
 
 router.get("/todos/all", authorize, todosController.all);
@@ -16,7 +17,7 @@ router.post("/todos/create", authorize, todosController.create);
 router.put("/todos/update", authorize, todosController.update);
 router.delete("/todos/destroy", authorize, todosController.destroy);
 
-router.get("/googleAuth", googleAuth);
+router.get("/googleAuthUrl", googleAuth.googleAuthUrl);
 router.post("/password", authorize, passwordController.update);
 
 module.exports = router;

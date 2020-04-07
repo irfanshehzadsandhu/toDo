@@ -21,5 +21,9 @@ class AuthService {
     }
   }
 
+  generateJwtToken(userID) {
+    return Jwt.sign({ userID: userID }, application.myPrivateKey);
+  }
+
 }
 module.exports = AuthService;
