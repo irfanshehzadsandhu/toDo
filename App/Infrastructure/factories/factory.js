@@ -1,7 +1,7 @@
 const { db } = require("../config");
 class Factory {
   static isMongooseDriver() {
-    return db.driver == "sequelize"
+    return db.driver == "mongoose"
   }
 
   static isSequelizeDriver() {
