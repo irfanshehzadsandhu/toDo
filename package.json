@@ -42,5 +42,8 @@
   },
   "mdSeed": {
     "seedersFolder": "./App/Infrastructure/seeders"
+  },
+  "engines": {
+    "node": "10.19.0"
   }
 }
